@@ -20,7 +20,7 @@ Currently the locally generated `index.html` has to be push to a branch and GitH
 ## Testing your Edits Locally
 
 Full guidance for using Spec-Up is in its
-[repository](https://github.com/trustoverip/spec-up-t)and in its [User Guide](https://trustoverip.github.io/spec-up-t-website/docs/getting-started).
+[repository](https://github.com/trustoverip/spec-up-t)and in its [User Guide](https://trustoverip.github.io/spec-up-t-website/docs/getting-started/intro).
 
 The short version of the instructions to render this specification locally while you are
 editing is:
