@@ -18,14 +18,11 @@ The GitHub interface supports creating pull requests using the Edit (✏) button
 
 ## Command Line Usage
 
-Formatted text and HTML versions of the draft can be built using `make`.
+Markdown text and HTML versions of the draft can be built using `Spec-Up-T`.
 
-```sh
-$ make
-```
+Command line usage requires that you have the necessary software installed.  See the instructions in the Spec-Up-T [User Guide](https://trustoverip.github.io/spec-up-t-website/docs/getting-started).
 
-Command line usage requires that you have the necessary software installed.  See
-[the instructions](https://github.com/martinthomson/i-d-template/blob/main/doc/SETUP.md).
+More info in [Editting the Spec](/EditingTheSpec).
 
 #### Note
 
