@@ -1,7 +1,7 @@
 # Licensing
 
 All software and documentation in this repository are *Copyright 2023 KERI Contributors* and 
-all contributions to this repository are *Licensed under the OWFa 1.0 (the "License")* [here](https://github.com/trustoverip/tswg-acdc-specification/blob/main/LICENSE).
+all contributions to this repository are *Licensed under the OWFa 1.0 (the "License")* [here](https://github.com/trustoverip/tswg-keri-specification/blob/main/LICENSE).
 
 As as defined in the License, contributions include but are not limited to patents, source code, specification text, 
 documentation, comments and issues. You may not use the software or documentation in this repository except in compliance with the License.
