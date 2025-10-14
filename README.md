@@ -23,7 +23,7 @@ Join a community of individuals and organizations solving the toughest technical
 
 #### Note
 
-This work was migrated from https://github.com/WebOfTrust/ietf-cesr.
+This work was migrated from https://github.com/WebOfTrust/ietf-keri.
 
 ## Command Line Usage
 
