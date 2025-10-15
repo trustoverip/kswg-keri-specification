@@ -2,7 +2,7 @@
 
 This is the working area for the individual Internet-Draft, "Key Event Receipt Infrastructure (KERI)".
 
-* [Editor's Copy](https://trustoverip.github.io/tswg-keri-specification/)
+* [Editor's Copy](https://trustoverip.github.io/kswg-keri-specification/)
 
 #### Contributing
 
