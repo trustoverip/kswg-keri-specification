@@ -311,7 +311,7 @@ The prior, `p` field is the SAID of a prior event message. When the prior `p` fi
 
 ##### AID fields
 
-Some fields, such as the `i` and `di` fields, MUST each have an AID as its value. An AID is a fully qualified primitive as described above ([[ref: key-event-receipt-infrastructure]]) ([[ref: KERI]]) [[4](#KERI-WP)].
+Some fields, such as the `i` and `di` fields, MUST each have an AID as its value. An AID is a fully qualified primitive as described above ([[ref: KERI]]) [[4](#KERI-WP)].
 
 In this context, `i` is short for `ai`, which is short for the Autonomic identifier (AID). The AID given by the `i` field can also be thought of as a securely attributable identifier, authoritative identifier, authenticatable identifier, authorizing identifier, or authoring identifier. Another way of thinking about an `i` field is that it is the identifier of the authoritative entity to which a statement can be securely attributed, thereby making the statement verifiably authentic via a nonrepudiable signature made by that authoritative entity as the Controller of the private key(s).
 
