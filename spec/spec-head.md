@@ -47,6 +47,6 @@ Because of the reliance on asymmetric (public, private) digital signing key pair
 
 [The normative documents](#normative-section) are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.
 
-* ISO/IEC 7498-1:1994 Information technology — Open Systems Interconnection — Basic Reference Model: The Basic Model. June 1999. Introduction. Retrieved 26 August 2022.
+* [ISO/IEC 7498-1](#IT7498):1994 Information technology — Open Systems Interconnection — Basic Reference Model: The Basic Model, including Requirement Levels (IETF [RFC-2119](#RFC2119)).
 
 See [Bibliography - Normative Section](#normative-section)
