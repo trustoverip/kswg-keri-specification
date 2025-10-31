@@ -45,15 +45,8 @@ Because of the reliance on asymmetric (public, private) digital signing key pair
 
 ## Normative references
 
-The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.
+[The normative documents](#normative-section) are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.
 
 * ISO/IEC 7498-1:1994 Information technology — Open Systems Interconnection — Basic Reference Model: The Basic Model. June 1999. Introduction. Retrieved 26 August 2022.
 
-[a]. IETF RFC-2119 Key words for use in RFCs to Indicate Requirement Levels
-[a]: https://www.rfc-editor.org/rfc/rfc2119.txt
-
-[b]. IETF RFC-4648 Base64
-[b]: https://www.rfc-editor.org/rfc/rfc4648.txt
-
-[c]. IETF RFC-3339 DateTime
-[c]: https://www.rfc-editor.org/rfc/rfc3339.txt
+See [Bibliography - Normative Section](#normative-section)
