@@ -5,7 +5,7 @@ Key Event Receipt Infrastructure (KERI)
 
 **Latest Draft:**
 
-[https://github.com/trustoverip/tswg-keri-specification](https://github.com/trustoverip/tswg-keri-specification)
+[https://github.com/trustoverip/kswg-keri-specification](https://github.com/trustoverip/kswg-keri-specification)
 
 **Author:**
 
@@ -22,8 +22,8 @@ Key Event Receipt Infrastructure (KERI)
 
 **Participate:**
 
-~ [GitHub repo](https://github.com/trustoverip/tswg-keri-specification)
-~ [Commit history](https://github.com/trustoverip/tswg-keri-specification/commits/main)
+~ [GitHub repo](https://github.com/trustoverip/kswg-keri-specification)
+~ [Commit history](https://github.com/trustoverip/kswg-keri-specification/commits/main)
 
 ## Introduction
 

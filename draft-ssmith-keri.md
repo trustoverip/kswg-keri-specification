@@ -23,7 +23,7 @@ author:
 normative:
 
   KERI-ID:
-    target: https://github.com/trustoverip/tswg-keri-specification
+    target: https://github.com/trustoverip/kswg-keri-specification
     title: ToIP KERI (Key Event Receipt Infrastructure) Internet Draft
     date: 2022
     author:
@@ -32,7 +32,7 @@ normative:
       org: ProSapien LLC
 
   CESR-ID:
-    target: https://github.com/trustoverip/tswg-cesr-specification
+    target: https://github.com/trustoverip/kswg-cesr-specification
     title: ToIP CESR (Composable Event Streaming Representation) Internet Draft
     date: 2022
     author:
