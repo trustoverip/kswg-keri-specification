@@ -1,1 +1,1 @@
-[[tref: toip2, cryptographic-primitive, Cryptographic primitive]]
+[[tref: toip2, cryptographic-primitive, Cryptographic primitive, Cryptographic primitives]]

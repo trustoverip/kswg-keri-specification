@@ -74,7 +74,7 @@
       "source": {
         "host": "github",
         "account": "trustoverip",
-        "repo": "tswg-keri-specification",
+        "repo": "kswg-keri-specification",
         "branch": "main"
       },
       "external_specs": [
