@@ -16,7 +16,16 @@ Key Event Receipt Infrastructure (KERI)
 - [Kevin Griffin](https://github.com/m00sey), [GLEIF](https://gleif.org/)
 
 **Contributors:**
-
+- [Samuel Smith](https://github.com/SmithSamuelM), [Prosapien](https://prosapien.com/)
+- [Phil Feairheller](https://github.com/pfeairheller)
+- [Kevin Griffin](https://github.com/m00sey), [GLEIF](https://gleif.org/)
+- [Nuttawut Kongsuwan](https://github.com/nkongsuwan)
+- [Daniel Hardman](https://github.com/dhh1128)
+- [Ed Edeykholt](https://github.com/edeykholt)
+- [Sai Ranjit Tummalapalli](https://github.com/sairanjit)
+- [Vasiliy S](https://github.com/VasiliyS)
+- [Charles Lanahan](https://github.com/daidoji)
+- [Fintan Halpenny](https://github.com/FintanH)
 - [Henk van Cann](https://github.com/henkvancann), [Blockchainbird](https://blockchainbird.org/)
 - [Kor Dwarshuis](https://github.com/kordwarshuis), [Blockchainbird](https://blockchainbird.org/)
 
