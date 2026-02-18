@@ -17,13 +17,13 @@ Key Event Receipt Infrastructure (KERI)
 
 **Contributors:**
 - [Samuel Smith](https://github.com/SmithSamuelM), [Prosapien](https://prosapien.com/)
-- [Phil Feairheller](https://github.com/pfeairheller)
+- [Phil Feairheller](https://github.com/pfeairheller), [HealthKERI](https://healthkeri.com)
 - [Kevin Griffin](https://github.com/m00sey), [GLEIF](https://gleif.org/)
 - [Nuttawut Kongsuwan](https://github.com/nkongsuwan)
 - [Daniel Hardman](https://github.com/dhh1128)
 - [Ed Edeykholt](https://github.com/edeykholt)
 - [Sai Ranjit Tummalapalli](https://github.com/sairanjit)
-- [Vasiliy S](https://github.com/VasiliyS)
+- [Vasiliy Suvorov](https://github.com/VasiliyS)
 - [Charles Lanahan](https://github.com/daidoji)
 - [Fintan Halpenny](https://github.com/FintanH)
 - [Henk van Cann](https://github.com/henkvancann), [Blockchainbird](https://blockchainbird.org/)
@@ -45,6 +45,33 @@ A SCID is strongly bound at inception to a cryptographic keypair that is self-co
 Two primary trust modalities motivated the design of the KERI protocol, namely a direct (one-to-one) mode and an indirect (one-to-any) mode. In the direct mode, two entities establish trust over AIDs via a direct exchange of their counterparts' verified signatures. In the indirect mode, trust over AIDs depends on witnessed Key event receipt logs ([[ref: KERL]]s, [[ref: Key event receipt]]) as a secondary root-of-trust for validating key events. The security and accountability guarantees of indirect mode are provided by KERI’s Algorithm for Witness Agreement ([[ref: KAWA]]) among a set of key event Witnesses. The KAWA approach may be much more performant and scalable than more complex approaches that depend on a total ordering distributed consensus ledger. Nevertheless, KERI may employ a distributed consensus ledger when other considerations make it the best choice.
 
 The KERI approach to Decentralized key management infrastructure ([[ref: DKMI]]) allows for more granular composition. Moreover, because KERI is event streamed, it enables DKMI to operate in-stride with data events streaming applications such as web 3.0, IoT, and others where performance and scalability are more important. The core KERI engine is independent of identifier namespace. This makes KERI a candidate for a universal portable DKMI. This system uses the design principle of minimally sufficient means for appropriate levels of security, performance, and adoptability to be a viable candidate as the DKMI that underpins a trust-spanning layer for the Internet.
+
+## Status of This Memo
+
+Information about the current status of this document, any errata,
+and how to provide feedback on it, may be obtained at
+[https://github.com/trustoverip/kswg-keri-specification](https://github.com/trustoverip/kswg-keri-specification).
+
+## Copyright Notice
+
+This specification is subject to the **OWF Contributor License Agreement 1.0 - Copyright**
+available at
+[https://www.openwebfoundation.org/the-agreements/the-owf-1-0-agreements-granted-claims/owf-contributor-license-agreement-1-0-copyright](https://www.openwebfoundation.org/the-agreements/the-owf-1-0-agreements-granted-claims/owf-contributor-license-agreement-1-0-copyright).
+
+If source code is included in the specification, that code is subject to the
+[Apache 2.0 license](https://www.apache.org/licenses/LICENSE-2.0.txt) unless otherwise marked. In the case of any conflict or
+confusion between the OWF Contributor License and the designated source code license within this specification, the terms of the OWF Contributor License MUST apply.
+
+These terms are inherited from the Technical Stack Working Group at the Trust over IP Foundation. [Working Group Charter](https://trustoverip.org/wp-content/uploads/TSWG-2-Charter-Revision.pdf).
+
+
+## Terms of Use
+
+These materials are made available under and are subject to the [OWF CLA 1.0 - Copyright & Patent license](https://www.openwebfoundation.org/the-agreements/the-owf-1-0-agreements-granted-claims/owf-contributor-license-agreement-1-0-copyright-and-patent). Any source code is made available under the [Apache 2.0 license](https://www.apache.org/licenses/LICENSE-2.0.txt).
+
+THESE MATERIALS ARE PROVIDED “AS IS.” The Trust Over IP Foundation, established as the Joint Development Foundation Projects, LLC, Trust Over IP Foundation Series ("ToIP"), and its members and contributors (each of ToIP, its members and contributors, a "ToIP Party") expressly disclaim any warranties (express, implied, or otherwise), including implied warranties of merchantability, non-infringement, fitness for a particular purpose, or title, related to the materials. The entire risk as to implementing or otherwise using the materials is assumed by the implementer and user. 
+IN NO EVENT WILL ANY ToIP PARTY BE LIABLE TO ANY OTHER PARTY FOR LOST PROFITS OR ANY FORM OF INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES OF ANY CHARACTER FROM ANY CAUSES OF ACTION OF ANY KIND WITH RESPECT TO THESE MATERIALS, ANY DELIVERABLE OR THE ToIP GOVERNING AGREEMENT, WHETHER BASED ON BREACH OF CONTRACT, TORT (INCLUDING NEGLIGENCE), OR OTHERWISE, AND WHETHER OR NOT THE OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 
 ## Scope
 
