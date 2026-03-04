@@ -1,7 +1,7 @@
 Key Event Receipt Infrastructure (KERI)
 ==================
 
-**Specification Status**: v1.0
+**Specification Status**: v1.1 Draft
 
 **Latest Draft:**
 

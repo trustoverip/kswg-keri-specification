@@ -23,11 +23,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>a directed acyclic graph with properties to provide a verifiable chain of <a class=\"term-reference\" href=\"#term:proof-of-authorship\">proof-of-authorship</a>. See the full <a href=\"https://trustoverip.github.io/kswg-acdc-specification/\">specification</a></p>\n</dd>\n<dd>\n<p>Source: Dr. S.Smith, 2024</p>\n</dd>\n<dd>\n<p>Explained briefly, an ACDC or <a class=\"term-reference\" href=\"#term:authentic-data-container\">authentic-data-container</a> proves digital data consistency and authenticity in one go. An ACDC cryptographically secures commitment to the data contained, and its identifiers are self-addressing, which means they point to themselves and are also contained in the data.</p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/authentic-chained-data-container\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:authentic-chained-data-container",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -55,11 +55,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>a self-managing cryptonymous identifier that must be self-certifying (self-authenticating) and must be encoded in CESR as a qualified Cryptographic primitive.</p>\n</dd>\n<dd>\n<p>Source: Dr. S.Smith, 2024</p>\n</dd>\n<dd>\n<p>An identifier that is <a class=\"term-reference\" href=\"#term:self-certifying-identifier\">self-certifying-identifier</a> and <a class=\"term-reference\" href=\"#term:self-sovereign-identity\">self-sovereign-identity</a> (or <em>self-managing</em>).</p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/autonomic-identifier\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:autonomic-identifier",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -87,11 +87,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/ctwg-main-glossary/",
-      "commitHash": "00608bb6ce7f7e6285f202b580548d61ee716621",
+      "commitHash": null,
       "content": "<dd>\n<p>an identity system that includes a primary root-of-trust in self-certifying identifiers that are strongly bound at issuance to a cryptographic signing (public, private) key pair. An AIS enables any entity to establish control over an AN in an independent, interoperable, and portable way.</p>\n</dd>\n<dd>\n<p>Source: Dr. S.Smith, 2024</p>\n</dd>\n<dd>\n<p>There’s nobody that can intervene with the establishment of the authenticity of a control operation because you can verify all the way back to the root-of-trust.</p>\n</dd>",
       "source": "xref",
       "termId": "term:autonomic-identity-system",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -119,11 +119,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/ctwg-main-glossary/",
-      "commitHash": "00608bb6ce7f7e6285f202b580548d61ee716621",
+      "commitHash": null,
       "content": "<dd>\n<p>a namespace that is self-certifying and hence self-administrating. An AN has a self-certifying prefix that provides cryptographic verification of root control authority over its namespace. All derived AIDs in the same AN share the same root-of-trust, source-of-truth, and locus-of-control (RSL). The governance of the namespace is, therefore, unified into one entity, that is, the controller who is/holds the root authority over the namespace.</p>\n</dd>\n<dd>\n<p>Source: Dr. S.Smith, 2024</p>\n</dd>\n<dd>\n<p>Namespaces are, therefore, portable and truly self-sovereign.</p>\n</dd>",
       "source": "xref",
       "termId": "term:autonomic-namespace",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -150,11 +150,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>an alternative to a traditional KERI based <a href=\"https://trustoverip.github.io/kswg-keri-specification/#term:witness\">Witness</a> commonly using Distributed Ledger Technology (DLT) to store the <a href=\"https://trustoverip.github.io/kswg-keri-specification/#term:kel\">KEL</a> for an identifier.</p>\n</dd>\n<dd>\n<p>Source: Dr. S.Smith, 2024</p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/backer\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:backer",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -182,11 +182,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/ctwg-general-glossary/",
-      "commitHash": "73604cf54c9f238b0d239daecc413a045f61c75e",
+      "commitHash": null,
       "content": "<dd>\n<p>It is a binary data <a href=\"https://en.wikipedia.org/wiki/Serialization\">serialization</a> format loosely based on <a href=\"https://en.wikipedia.org/wiki/JSON\">JSON</a> authored by C. Bormann. Like JSON it allows the transmission of data objects that contain <a href=\"https://en.wikipedia.org/wiki/Attribute%E2%80%93value_pair\">name–value pairs</a>, but in a more concise manner. This increases processing and transfer speeds at the cost of <a href=\"https://en.wikipedia.org/wiki/Human-readable_medium\">human readability</a>.</p>\n</dd>\n<dd>\n<p>Also knows as: <a class=\"term-reference\" href=\"#term:cbor\">CBOR</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:concise-binary-object-representation",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.408Z",
       "classes": [
         "term-local"
       ]
@@ -214,11 +214,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>a list of specially defined strings representing a configuration of a KEL.</dd>\n<dd>Source: Dr. S.Smith, 2024</dd>\n<dd>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/configuration-traits\">extended KERI glossary</a></dd>",
       "source": "xref",
       "termId": "term:configuration-traits",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -245,11 +245,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/ctwg-main-glossary/",
-      "commitHash": "00608bb6ce7f7e6285f202b580548d61ee716621",
+      "commitHash": null,
       "content": "<dd>\n<p>In the context of digital <a class=\"term-reference\" href=\"#term:communications\">communications</a>, the <a class=\"term-reference\" href=\"#term:entity\">entity</a> in control of sending and receiving digital <a class=\"term-reference\" href=\"#term:communications\">communications</a>. In the context of decentralized digital trust infrastructure, the <a class=\"term-reference\" href=\"#term:entity\">entity</a> in control of the <a class=\"term-reference\" href=\"#term:cryptographic-keys\">cryptographic keys</a> necessary to perform <a class=\"term-reference\" href=\"#term:cryptographically-verifiable\">cryptographically verifiable</a> <a class=\"term-reference\" href=\"#term:actions\">actions</a> using a <a class=\"term-reference\" href=\"#term:digital-agent\">digital agent</a> and <a class=\"term-reference\" href=\"#term:digital-wallet\">digital wallet</a>. In a ToIP context, the <a class=\"term-reference\" href=\"#term:entity\">entity</a> in control of a <a class=\"term-reference\" href=\"#term:toip-endpoint\">ToIP endpoint</a>.</p>\n</dd>\n<dd>\n<p>See also: <a class=\"term-reference\" href=\"#term:device-controller\">device controller</a>, <a class=\"term-reference\" href=\"#term:did-controller\">DID controller</a>, <a class=\"term-reference\" href=\"#term:toip-controller\">ToIP controller</a>.</p>\n</dd>\n<dd>\n<p>Supporting definitions:</p>\n</dd>\n<dd>\n<p><a href=\"https://essif-lab.github.io/framework/docs/essifLab-glossary#controller\">eSSIF-Lab</a>: the role that an <a href=\"https://essif-lab.github.io/framework/docs/terms/actor\">actor</a> performs as it is executing actions on that <a href=\"https://essif-lab.github.io/framework/docs/terms/entity\">entity</a> for the purpose of ensuring that the <a href=\"https://essif-lab.github.io/framework/docs/terms/entity\">entity</a> will act/behave, or be used, in a particular way.</p>\n</dd>",
       "source": "xref",
       "termId": "term:controller",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -277,11 +277,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/ctwg-general-glossary/",
-      "commitHash": "73604cf54c9f238b0d239daecc413a045f61c75e",
+      "commitHash": null,
       "content": "<dd>the serialization of a value associated with a cryptographic operation including but not limited to a digest (hash), a salt, a seed, a private key, a public key, or a signature.</dd>\n<dd>Source: Dr. S.Smith, 2024</dd>",
       "source": "xref",
       "termId": "term:cryptographic-primitive",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.408Z",
       "classes": [
         "term-local"
       ]
@@ -309,11 +309,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/ctwg-general-glossary/",
-      "commitHash": "73604cf54c9f238b0d239daecc413a045f61c75e",
+      "commitHash": null,
       "content": "<dd>a cryptographic pseudonymous identifier represented by a string of characters derived from a random or pseudo-random secret seed or salt via a one-way cryptographic function with a sufficiently high degree of cryptographic strength (e.g., 128 bits, see appendix on <a class=\"term-reference\" href=\"#term:cryptographic-strength\">cryptographic-strength</a>. A cryptonym is a type of <a class=\"term-reference\" href=\"#term:primitive\">primitive</a>.</dd>",
       "source": "xref",
       "termId": "term:cryptonym",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.408Z",
       "classes": [
         "term-local"
       ]
@@ -340,11 +340,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>represents the number or fractional weights of signatures from the given set of current keys required to be attached to a <a href=\"https://trustoverip.github.io/kswg-keri-specification/#term:message\">Message</a> for the <a href=\"https://trustoverip.github.io/kswg-keri-specification/#term:message\">Message</a> to be considered fully signed.</p>\n</dd>\n<dd>\n<p>Source: Dr. S.Smith, 2024</p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/current-threshold\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:current-threshold",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -371,11 +371,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>an attack on an <a class=\"term-reference\" href=\"#term:establishment-event\">establishment-event</a> that occurs after the Key-state for that event has become stale because a later establishment event has rotated the sets of signing and pre-rotated keys to new sets.</p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/dead-attack\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:dead-attack",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -403,11 +403,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/ctwg-general-glossary/",
-      "commitHash": "73604cf54c9f238b0d239daecc413a045f61c75e",
+      "commitHash": null,
       "content": "<dd>a key management infrastructure that does not rely on a single entity for the integrity and security of the system as a whole. Trust in a DKMI is decentralized through the use of technologies that make it possible for geographically and politically disparate entities to reach an agreement on the key state of an identifier <a href=\"https://trustoverip.github.io/kswg-keri-specification/#term:dpki\">DPKI</a>.</dd>\n<dd>Source: Dr. S.Smith, 2024</dd>",
       "source": "xref",
       "termId": "term:decentralized-key-management-infrastructure",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.408Z",
       "classes": [
         "term-local"
       ]
@@ -434,11 +434,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>the existence of more than one version of a Verifiable <a class=\"term-reference\" href=\"#term:key-event-log\">key-event-log</a> for a given <a class=\"term-reference\" href=\"#term:aid\">AID</a>.</p>\n</dd>\n<dd>\n<p>Source: Dr. S.Smith, 2024</p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/duplicity\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:duplicity",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -465,11 +465,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>a data item or statement may be cryptographically securely attributable to its source (party at the source end) by any recipient verifier (party at the destination end) without reliance on any infrastructure not under the verifier’s ultimate control.</dd>\n<dd>Source Dr. S.Smith</dd>",
       "source": "xref",
       "termId": "term:end-verifiability",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -496,11 +496,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>a <a class=\"term-reference\" href=\"#term:key-event\">key-event</a> that establishes or changes the key state which includes the current set of authoritative keypairs (key state) for an <a class=\"term-reference\" href=\"#term:aid\">AID</a>.</p>\n</dd>\n<dd>\n<p>Source: dr. S.Smith</p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/establishment-event\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:establishment-event",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -527,11 +527,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>a cryptographically verifiable identifier used to represent a party in a data exchange. It facilitates secure attribution (authenticity), content protection (confidentiality), and may support privacy via uncorrelatable or pseudonymous metadata.</dd>",
       "source": "xref",
       "termId": "term:exchange-identifier",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -559,11 +559,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>refers to the first instance of a <a class=\"term-reference\" href=\"#term:message\">message</a> received by any <a class=\"term-reference\" href=\"#term:witness\">witness</a> or <a class=\"term-reference\" href=\"#term:watcher\">watcher</a>. The first-seen event is always seen, and can never be unseen. It forms the basis for <a class=\"term-reference\" href=\"#term:duplicity\">duplicity</a> detection in KERI-based systems.</p>\n</dd>\n<dd>\n<p>Source: Dr. S.Smith</p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/first-seen\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:first-seen",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -590,11 +590,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>an <a class=\"term-reference\" href=\"#term:establishment-event\">establishment-event</a> that provides the incepting information needed to derive an AID and establish its initial Key state.</p>\n</dd>\n<dd>\n<p>Source <a href=\"https://github.com/WebOfTrust/ietf-keri/blob/main/draft-ssmith-keri.md#basic-terminology\">Sam Smith</a></p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/inception-event\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:inception-event",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -621,11 +621,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>The operation of creating an AID by binding it to the initial set of authoritative keypairs and any other associated information. This operation is made verifiable and duplicity evident upon acceptance as the inception event that begins the AID’s KEL.</p>\n</dd>\n<dd>\n<p>Source <a href=\"https://github.com/WebOfTrust/ietf-keri/blob/main/draft-ssmith-keri.md#basic-terminology\">Sam Smith</a></p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/inception\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:inception",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -652,11 +652,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>Also called <em>siger</em>. An indexed signature attachment is used when signing anything with a multi-key autonomic identifier. The index is included as part of the attachment, so a verifier knows which of the multiple public keys was used to generate a specific signature.</p>\n</dd>\n<dd>\n<p>Source:Philip Feairheller</p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/indexed-signature\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:indexed-signature",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -683,11 +683,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>Non-establishment Event that anchors external data to the key-state as established by the most recent prior establishment event.</dd>\n<dd>Source <a href=\"https://github.com/WebOfTrust/ietf-keri/blob/main/draft-ssmith-keri.md#basic-terminology\">Sam Smith</a></dd>\n<dd>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/interaction-event\">extended KERI glossary</a></dd>",
       "source": "xref",
       "termId": "term:interaction-event",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -716,11 +716,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>a Verifiable data structure that is a backward and forward chained, signed, append-only log of key events for an AID. The first entry in a KEL must be the one and only Inception event of that AID.</p>\n</dd>\n<dd>\n<p>Source <a href=\"https://github.com/WebOfTrust/ietf-keri/blob/main/draft-ssmith-keri.md#basic-terminology\">Sam Smith</a></p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/key-event-log\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:key-event-log",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -747,11 +747,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>Message whose body is a key event and whose attachments may include signatures on its body.</dd>\n<dd>Source <a href=\"https://github.com/WebOfTrust/ietf-keri/blob/main/draft-ssmith-keri.md#basic-terminology\">Sam Smith</a></dd>\n<dd>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/key-event-message\">extended KERI glossary</a></dd>",
       "source": "xref",
       "termId": "term:key-event-message",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -779,11 +779,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>or the KERI protocol, is an identity system-based secure overlay for the Internet.</p>\n</dd>\n<dd>\n<p>Source: Dr. S.Smtih</p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/key-event-receipt-infrastructure\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:key-event-receipt-infrastructure",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -811,11 +811,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>a key event receipt log is a <a class=\"term-reference\" href=\"#term:kel\">kel</a> that also includes all the consistent key event receipt <a class=\"term-reference\" href=\"#term:message\">message</a>s created by the associated set of witnesses.</p>\n</dd>\n<dd>\n<p>Source: Dr. S.Smith</p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/key-event-receipt-log\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:key-event-receipt-log",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -842,11 +842,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>message whose body references a Key event and whose attachments must include one or more signatures on that Key event.</dd>\n<dd>Source <a href=\"https://github.com/WebOfTrust/ietf-keri/blob/main/draft-ssmith-keri.md#basic-terminology\">Sam Smith</a></dd>\n<dd>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/key-event-receipt\">extended KERI glossary</a></dd>",
       "source": "xref",
       "termId": "term:key-event-receipt",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -873,11 +873,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>See the more general TrustoverIP concept of key-event: <a class=\"x-term-reference term-reference\" data-local-href=\"#term:toip1:key-event\" href=\"https://trustoverip.github.io/ctwg-main-glossary/#term:key-event\" title=\"External term definition\" data-term-content=\"<dd> <p>An event in the history of the usage of a <a class=&quot;term-reference&quot; href=&quot;#term:cryptographic-key-pair&quot;>cryptographic key pair</a>. There are multiple types of key events. The inception event is when the key pair is first generated. A rotation event is when the key pair is changed to a new key pair. In some <a class=&quot;term-reference&quot; href=&quot;#term:key-management-systems&quot;>key management systems</a> (such as <a class=&quot;term-reference&quot; href=&quot;#term:keri&quot;>KERI</a>), key events are tracked in a <a class=&quot;term-reference&quot; href=&quot;#term:key-event-log&quot;>key event log</a>.</p> </dd>\">Key event</a></p>\n</dd>\n<dd>\n<p>Concretely, it is the serialized data structure of an entry in the Key event log (<a class=\"term-reference\" href=\"#term:kel\">KEL</a>) for an [AID]( <a class=\"term-reference\" href=\"#term:autonomic-identifier\">autonomic-identifier</a>). Abstractly, the data structure itself. Key events come in different types and are used primarily to establish or change the <a class=\"term-reference\" href=\"#term:authoritative\">authoritative</a> set of keypairs and/or anchor other data to the authoritative set of keypairs at the point in the KEL actualized by a particular entry.</p>\n</dd>\n<dd>\n<p>Source <a href=\"https://github.com/WebOfTrust/ietf-keri/blob/main/draft-ssmith-keri.md#basic-terminology\">Sam Smith</a></p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/key-event\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:key-event",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -904,11 +904,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/ctwg-general-glossary/",
-      "commitHash": "73604cf54c9f238b0d239daecc413a045f61c75e",
+      "commitHash": null,
       "content": "<dd>a set of currently authoritative keypairs for an AID and any other information necessary to secure or establish control authority over an AID. This includes current keys, prior next key digests, current thresholds, prior next thresholds, witnesses, witness thresholds, and configurations.</dd>",
       "source": "xref",
       "termId": "term:key-state",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.408Z",
       "classes": [
         "term-local"
       ]
@@ -936,11 +936,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>an attack that compromises either the current signing keys used to sign non-establishment events or the current pre-rotated keys needed to sign a subsequent establishment event. See (Security Properties of Prerotation)[#live-attacks].</dd>\n<dd>Source: Dr. S.Smith</dd>\n<dd>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/live-attack\">extended KERI glossary</a></dd>",
       "source": "xref",
       "termId": "term:live-attack",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -968,11 +968,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/ctwg-general-glossary/",
-      "commitHash": "73604cf54c9f238b0d239daecc413a045f61c75e",
+      "commitHash": null,
       "content": "<dd>MessagePack is a <a href=\"https://en.wikipedia.org/wiki/Computer\">computer</a> data interchange format. It is a binary form for representing simple <a href=\"https://en.wikipedia.org/wiki/Data_structure\">data structures</a> like <a href=\"https://en.wikipedia.org/wiki/Array_data_structure\">arrays</a> and <a href=\"https://en.wikipedia.org/wiki/Associative_array\">associative arrays</a>. MessagePack aims to be as compact and simple as possible. The official implementation is available in a variety of languages</dd>",
       "source": "xref",
       "termId": "term:messagepack",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.408Z",
       "classes": [
         "term-local"
       ]
@@ -999,11 +999,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>represents the number or fractional weights of signatures from the given set of next keys required to be attached to a <a href=\"https://trustoverip.github.io/kswg-keri-specification/#term:message\">Message</a> for the <a href=\"https://trustoverip.github.io/kswg-keri-specification/#term:message\">Message</a> to be considered fully signed.</dd>\n<dd>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/next-threshold\">extended KERI glossary</a></dd>",
       "source": "xref",
       "termId": "term:next-threshold",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -1030,11 +1030,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>a Key event that does not change the current Key state for an AID. Typically, the purpose of a Non-establishment event is to anchor external data to a given Key state as established by the most recent prior Establishment event for an AID.</p>\n</dd>\n<dd>\n<p>Source: Dr. S. Smith</p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/non-establishment-event\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:non-establishment-event",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -1062,11 +1062,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>Out-of-band Introductions (OOBIs) are discovery and validation of IP resources for <a class=\"term-reference\" href=\"#term:key-event-receipt-infrastructure\">key-event-receipt-infrastructure</a> autonomic identifiers. <strong>Discovery via URI, trust via KERI.</strong></p>\n</dd>\n<dd>\n<p>The simplest form of a KERI OOBI is a namespaced string, a tuple, a mapping, a structured message, or structured attachment that contains both a KERI AID and a URL. The OOBI associates the URL with the AID.</p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/out-of-band-introduction\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:out-of-band-introduction",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -1093,11 +1093,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/ctwg-general-glossary/",
-      "commitHash": "73604cf54c9f238b0d239daecc413a045f61c75e",
+      "commitHash": null,
       "content": "<dd>a serialization of a unitary value. All Primitives in KERI must be expressed in <a class=\"term-reference\" href=\"#term:composable-event-streaming-representation\">composable-event-streaming-representation</a>.</dd>\n<dd>Source: Dr. S.Smith</dd>",
       "source": "xref",
       "termId": "term:primitive",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.408Z",
       "classes": [
         "term-local"
       ]
@@ -1124,11 +1124,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>event message or reference with one or more witness signatures.</p>\n</dd>\n<dd>\n<p>See Also:</p>\n</dd>\n<dd>\n<p><a class=\"term-reference\" href=\"#term:key-event-receipt\">key-event-receipt</a></p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/receipt\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:receipt",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -1155,11 +1155,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>the receiver (recipient) of an exchange message. The receiver is a controller on its associated <a class=\"term-reference\" href=\"#term:kel\">KEL</a> but is not the sender of the exchange message.</p>\n</dd>\n<dd>\n<p>a receiver is a component that listens for and processes out-of-band messages, such as events or credentials, delivered via a mailbox system. It routes these messages to appropriate handlers for secure, asynchronous communication between <a class=\"term-reference\" href=\"#term:keri-agent\">KERI agent</a>s.</p>\n</dd>",
       "source": "xref",
       "termId": "term:receiver",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -1186,11 +1186,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>an Establishment Event that provides the information needed to change the Key state, which includes a change to the set of <a class=\"term-reference\" href=\"#term:authoritative\">authoritative</a> keypairs for an AID.</p>\n</dd>\n<dd>\n<p>Source: Dr. S.Smith</p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/rotation-event\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:rotation-event",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -1217,11 +1217,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>The operation of revoking and replacing the set of <a class=\"term-reference\" href=\"#term:authoritative\">authoritative</a> <a class=\"term-reference\" href=\"#term:key-pair\">key-pair</a> for an <a class=\"term-reference\" href=\"#term:aid\">AID</a>. This operation is made verifiable and <a class=\"term-reference\" href=\"#term:duplicity\">duplicity</a> evident upon acceptance as a rotation event that is appended to the AID’s <a class=\"term-reference\" href=\"#term:kel\">KEL</a>.</dd>\n<dd>Source <a href=\"https://github.com/WebOfTrust/ietf-keri/blob/main/draft-ssmith-keri.md#basic-terminology\">Sam Smith</a></dd>\n<dd>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/rotation\">extended KERI glossary</a></dd>",
       "source": "xref",
       "termId": "term:rotation",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -1248,11 +1248,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>is a KERI protocol message that allows one controller (sender) to transmit a confidential message to another controller (receiver) through one or more intermediaries (routers), while preserving authenticity (non-repudiation) and enabling confidentiality (through encryption), but potentially sacrificing privacy depending on routing visibility.</dd>",
       "source": "xref",
       "termId": "term:routed-exchange-message",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -1279,11 +1279,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/ctwg-general-glossary/",
-      "commitHash": "73604cf54c9f238b0d239daecc413a045f61c75e",
+      "commitHash": null,
       "content": "<dd>random data fed as an additional input to a one-way function that hashes data.</dd>\n<dd>Source: Dr. S. Smith</dd>",
       "source": "xref",
       "termId": "term:salt",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.408Z",
       "classes": [
         "term-local"
       ]
@@ -1310,11 +1310,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/ctwg-general-glossary/",
-      "commitHash": "73604cf54c9f238b0d239daecc413a045f61c75e",
+      "commitHash": null,
       "content": "<dd>a seal is a cryptographic commitment in the form of a cryptographic digest or hash tree root (Merkle root) that anchors arbitrary data or a tree of hashes of arbitrary data to a particular event in the key event sequence.</dd>\n<dd>Source: Dr. S. Smith</dd>",
       "source": "xref",
       "termId": "term:seal",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.408Z",
       "classes": [
         "term-local"
       ]
@@ -1342,11 +1342,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>a representation of data content from which a SAID is derived. The SAID is both cryptographically bound to (content-addressable) and encapsulated by (self-referential) its SAD <a class=\"term-reference\" href=\"#term:said\">said</a>.</dd>\n<dd>Source: Dr. S.Smith</dd>\n<dd>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/self-addressed-data\">extended KERI glossary</a></dd>",
       "source": "xref",
       "termId": "term:self-addressed-data",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -1374,11 +1374,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>any identifier that is deterministically generated out of the content, or a digest of the content.</p>\n</dd>\n<dd>\n<p>Source: Dr. S. Smtih</p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/self-addressing-identifier\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:self-addressing-identifier",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -1406,11 +1406,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>a type of Cryptonym that is uniquely cryptographically derived from the public key of an asymmetric signing keypair (public, private).</p>\n</dd>\n<dd>\n<p>Source: Dr. S. Smith</p>\n</dd>\n<dd>\n<p>Also see the TrustoverIP scope definition: <a class=\"x-term-reference term-reference\" data-local-href=\"#term:toip1:self-certifying-identifier\" href=\"https://trustoverip.github.io/ctwg-main-glossary/#term:self-certifying-identifier\" title=\"External term definition\" data-term-content=\"<dd> <p>A subclass of <a class=&quot;term-reference&quot; href=&quot;#term:verifiable-identifier&quot;>verifiable identifier</a> (VID) that is <a class=&quot;term-reference&quot; href=&quot;#term:cryptographically-verifiable&quot;>cryptographically verifiable</a> without the need to rely on any <a class=&quot;term-reference&quot; href=&quot;#term:third-party&quot;>third party</a> for <a class=&quot;term-reference&quot; href=&quot;#term:verification&quot;>verification</a> because the <a class=&quot;term-reference&quot; href=&quot;#term:identifier&quot;>identifier</a> is cryptographically bound to the <a class=&quot;term-reference&quot; href=&quot;#term:cryptographic-keys&quot;>cryptographic keys</a> from which it was generated.</p> </dd>\">Self-certifying identifier</a></p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/self-certifying-identifier\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:self-certifying-identifier",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -1438,11 +1438,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/ctwg-main-glossary/",
-      "commitHash": "00608bb6ce7f7e6285f202b580548d61ee716621",
+      "commitHash": null,
       "content": "<dd>\n<p>A digital signature is a mathematical scheme that uses cryptography for verifying the authenticity of digital <a class=\"term-reference\" href=\"#term:messages\">messages</a> or documents. A valid digital signature, where the prerequisites are satisfied, gives a recipient very high confidence that the <a class=\"term-reference\" href=\"#term:message\">message</a> was created by a known sender (<a class=\"term-reference\" href=\"#term:authenticity\">authenticity</a>), and that the message was not altered in transit (<a class=\"term-reference\" href=\"#term:integrity\">integrity</a>).</p>\n</dd>\n<dd>\n<p>Source: <a href=\"https://en.wikipedia.org/wiki/Digital_signature\">Wikipedia</a>.</p>\n</dd>\n<dd>\n<p>Supporting definitions:</p>\n</dd>\n<dd>\n<p><a href=\"https://csrc.nist.gov/glossary/term/digital_signature\">NIST-CSRC</a>: The result of a cryptographic transformation of data which, when properly implemented, provides the services of: 1. origin authentication, 2. data integrity, and 3. signer non-repudiation.</p>\n</dd>",
       "source": "xref",
       "termId": "term:digital-signature",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -1469,11 +1469,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/ctwg-general-glossary/",
-      "commitHash": "73604cf54c9f238b0d239daecc413a045f61c75e",
+      "commitHash": null,
       "content": "<dd>any entity or agent that evaluates whether or not a given signed statement as attributed to an identifier is valid at the time of its issuance.</dd>\n<dd>Source: Dr. S. Smith</dd>",
       "source": "xref",
       "termId": "term:validator",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.408Z",
       "classes": [
         "term-local"
       ]
@@ -1500,11 +1500,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/ctwg-main-glossary/",
-      "commitHash": "00608bb6ce7f7e6285f202b580548d61ee716621",
+      "commitHash": null,
       "content": "<dd>\n<p>In the context of digital <a class=\"term-reference\" href=\"#term:communications\">communications</a> infrastructure, the ability to determine the <a class=\"term-reference\" href=\"#term:authenticity\">authenticity</a> of a <a class=\"term-reference\" href=\"#term:communication\">communication</a> (e.g., sender, contents, <a class=\"term-reference\" href=\"#term:claims\">claims</a>, <a class=\"term-reference\" href=\"#term:metadata\">metadata</a>, provenance), or the underlying <a class=\"term-reference\" href=\"#term:sociotechnical\">sociotechnical</a> infrastructure (e.g., <a class=\"term-reference\" href=\"#term:governance\">governance</a>, <a class=\"term-reference\" href=\"#term:roles\">roles</a>, <a class=\"term-reference\" href=\"#term:policies\">policies</a>, <a class=\"term-reference\" href=\"#term:authorizations\">authorizations</a>, <a class=\"term-reference\" href=\"#term:certifications\">certifications</a>).</p>\n</dd>\n<dd>\n<p>See also:<a class=\"term-reference\" href=\"#term:appraisable\">appraisable</a>, <a class=\"term-reference\" href=\"#term:digital-signature\">digital signature</a>.</p>\n</dd>",
       "source": "xref",
       "termId": "term:verifiable",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.408Z",
       "classes": [
         "term-local"
       ]
@@ -1531,11 +1531,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/ctwg-main-glossary/",
-      "commitHash": "00608bb6ce7f7e6285f202b580548d61ee716621",
+      "commitHash": null,
       "content": "<dd>\n<p>A <a class=\"term-reference\" href=\"#term:role\">role</a> an <a class=\"term-reference\" href=\"#term:agent\">agent</a> performs to perform <a class=\"term-reference\" href=\"#term:verification\">verification</a> of one or more <a class=\"term-reference\" href=\"#term:proofs\">proofs</a> of the <a class=\"term-reference\" href=\"#term:claims\">claims</a> in a <a class=\"term-reference\" href=\"#term:digital-credential\">digital credential</a> or other <a class=\"term-reference\" href=\"#term:verifiable-data\">verifiable data</a>.</p>\n</dd>\n<dd>\n<p>See also: <a class=\"term-reference\" href=\"#term:relying-party\">relying party</a>; <a class=\"term-reference\" href=\"#term:issuer\">issuer</a>, <a class=\"term-reference\" href=\"#term:holder\">holder</a>.</p>\n</dd>\n<dd>\n<p>Mental model: <a href=\"https://www.w3.org/TR/vc-data-model/#roles\">W3C Verifiable Credentials Data Model Roles &amp; Information Flows</a></p>\n</dd>\n<dd>\n<p>Supporting definitions:</p>\n</dd>\n<dd>\n<p><a href=\"https://www.w3.org/TR/vc-data-model/#terminology\">W3C VC</a>: A role an <a href=\"https://www.w3.org/TR/vc-data-model/#dfn-entities\">entity</a> performs by receiving one or more <a href=\"https://www.w3.org/TR/vc-data-model/#dfn-verifiable-credentials\">verifiable credentials</a>, optionally inside a <a href=\"https://www.w3.org/TR/vc-data-model/#dfn-verifiable-presentations\">verifiable presentation</a> for processing. Other specifications might refer to this concept as a <a class=\"term-reference\" href=\"#term:relying-party\">relying party</a>.</p>\n</dd>\n<dd>\n<p><a href=\"https://essif-lab.github.io/framework/docs/essifLab-glossary#verifier\">eSSIF-Lab</a>: a component that implements the <a href=\"https://essif-lab.github.io/framework/docs/terms/capability\">capability</a> to request <a href=\"https://essif-lab.github.io/framework/docs/terms/peer-agent\">peer agents</a> to present (provide) data from credentials (of a specified kind, issued by specified <a href=\"https://essif-lab.github.io/framework/docs/terms/party\">parties</a>), and to verify such responses (check structure, signatures, dates), according to its <a href=\"https://essif-lab.github.io/framework/docs/terms/principal\">principal</a>’s <a href=\"https://essif-lab.github.io/framework/docs/terms/verifier-policy\">verifier policy</a>.</p>\n</dd>\n<dd>\n<p><a href=\"https://csrc.nist.gov/glossary/term/verifier\">NIST</a> The entity that verifies the authenticity of a digital signature using the public key.</p>\n</dd>",
       "source": "xref",
       "termId": "term:verifier",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.408Z",
       "classes": [
         "term-local"
       ]
@@ -1562,11 +1562,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>an instance of a KEL for an AID in which at least one event is unique between two instances of the <a class=\"term-reference\" href=\"#term:kel\">KEL</a>.</p>\n</dd>\n<dd>\n<p>Source: Dr. S. Smith</p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/version\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:version",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -1593,11 +1593,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>an <em>entity</em> or <em>component</em> that keeps a copy of a <a class=\"term-reference\" href=\"#term:kerl\">kerl</a> for an identifier but that is not designated by the <em>controller</em> of the identifier as one of its witnesses. See annex <a class=\"term-reference\" href=\"#term:watcher\">watcher</a>.</p>\n</dd>\n<dd>\n<p>Source: Dr. S.Smith</p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/watcher\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:watcher",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -1624,11 +1624,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>a witness is an entity or component designated (trusted) by the controller of an identifier. The primary role of a witness is to verify, sign, and keep events associated with an identifier. A witness is the controller of its own self-referential identifier which may or may not be the same as the identifier to which it is a witness. See also <a class=\"term-reference\" href=\"#term:keri’s-algorithm-for-witness-agreement\">keri’s-algorithm-for-witness-agreement</a>.</p>\n</dd>\n<dd>\n<p>Source: Dr. S. Smith</p>\n</dd>\n<dd>\n<p>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/witness\">extended KERI glossary</a></p>\n</dd>",
       "source": "xref",
       "termId": "term:witness",
-      "lastUpdated": "2026-02-19T13:37:06.844Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -1656,11 +1656,11 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>a type of Byzantine Fault Tolerant (<a class=\"term-reference\" href=\"#term:byzantine-fault-tolerance\">byzantine-fault-tolerance</a>) algorithm.</dd>\n<dd>Source: Dr. S.Smith</dd>\n<dd>More in <a href=\"https://weboftrust.github.io/WOT-terms/docs/glossary/keri’s-algorithm-for-witness-agreement\">extended KERI glossary</a></dd>",
       "source": "xref",
       "termId": "term:keris-algorithm-for-witness-agreement",
-      "lastUpdated": "2026-02-19T13:37:06.843Z",
+      "lastUpdated": "2026-03-04T14:07:07.407Z",
       "classes": [
         "term-local"
       ]
@@ -1687,14 +1687,14 @@ const allXTrefs = {
       "branch": "toDOI",
       "avatarUrl": null,
       "ghPageUrl": "https://trustoverip.github.io/kerisuite-glossary/",
-      "commitHash": "ab23372198bed5cda8bc0ac0289cead7a06d3320",
+      "commitHash": null,
       "content": "<dd>\n<p>a serialized data structure that comprises its body and a set of serialized data structures that are its attachments. Attachments may include but are not limited to signatures on the body.</p>\n</dd>\n<dd>\n<p>Source: Dr. S.Smith</p>\n</dd>\n<dd>\n<p>Also see: <a class=\"x-term-reference term-reference\" data-local-href=\"#term:toip1:message\" href=\"https://trustoverip.github.io/ctwg-main-glossary/#term:message\" title=\"External term definition\" data-term-content=\"<dd> <p>A discrete unit of <a class=&quot;term-reference&quot; href=&quot;#term:communication&quot;>communication</a> intended by the source for consumption by some recipient or group of recipients.</p> </dd>\">message</a> in ToIP main glossary.</p>\n</dd>",
       "classes": [
         "term-local"
       ],
       "source": "xref",
       "termId": "term:message",
-      "lastUpdated": "2026-02-19T13:37:06.844Z"
+      "lastUpdated": "2026-03-04T14:07:07.407Z"
     }
   ]
 };
