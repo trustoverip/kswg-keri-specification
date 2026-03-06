@@ -5,7 +5,7 @@ Key Event Receipt Infrastructure (KERI)
 
 **DOI**
 
-[https://doi.org/10.5281/zenodo.18887103](https://doi.org/10.5281/zenodo.18887103)
+[https://doi.org/10.5281/zenodo.18887102](https://doi.org/10.5281/zenodo.18887102)
 
 **Latest Draft:**
 
