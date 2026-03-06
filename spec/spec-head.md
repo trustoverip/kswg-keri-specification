@@ -1,7 +1,11 @@
 Key Event Receipt Infrastructure (KERI)
 ==================
 
-**Specification Status**: v1.1 Draft
+**Specification Status**: v1.1
+
+**DOI**
+
+[https://doi.org/10.5281/zenodo.18887103](https://doi.org/10.5281/zenodo.18887103)
 
 **Latest Draft:**
 
