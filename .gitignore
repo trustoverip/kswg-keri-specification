@@ -1,11 +1,69 @@
-*~
+#######################
+#
+# BEGIN SPEC-UP-T rules
+#
+#######################
+
+# This file represents the recommended .gitignore for Spec-Up-T projects.
+# If you only need to ignore something locally and don’t want to
+# commit the rule, you can add the pattern to your repository’s
+# `.git/info/exclude` file instead of modifying the shared .gitignore.
+# Entries in `.git/info/exclude` stay completely local.
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+
+# Editor / OS temporaries & backups
+*.bak
+*.tmp
+.idea
+.vscode/
+
+# Environment / secrets
+.env*
+
+# Test coverage
+coverage/
+
+# Various caches & history
+.history/
+.cache/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon\r          # (the \r is intentional — it's a hidden carriage-return file)
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk           # Windows shortcuts (optional, but very common noise)
+
+# Linux / Ubuntu / general Unix-like
+*~              # Editor backup files (Vim, Nano, etc.)
+.*.swp          # Vim swap files
+.*.swo
+.fuse_hidden*   # Sometimes appears with fuse mounts
+
+#######################
+#
+# END SPEC-UP-T rules
+#
+#######################
+
+# Custom rules for this project
 /*-[0-9][0-9].xml
 archive.json
 draft-ssmith-keri.xml
 Gemfile.lock
 /.gems/
 /lib
-/node_modules/
 *.pdf
 *.redxml
 /.refcache
@@ -17,19 +75,8 @@ report.xml
 *.upload
 /.venv/
 /versioned/
-/.vscode/
 !requirements.txt
-.DS_Store
-.idea
 venv/
 /.vs
-node_modules
-*.log
 dist
-*.bak
-*.tmp
-.env
-coverage
 build
-.history
-/.cache/
