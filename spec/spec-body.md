@@ -2647,7 +2647,7 @@ The simplest form of a KERI OOBI MAY be expressed by any of a namespaced string,
 In concrete tuple form, an OOBI is as follows:
 
 ```python
-("http://8.8.5.6:8080/oobi", "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB")
+("http://192.0.2.6:8080/oobi", "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB")
 ```
 
 An OOBI itself is not signed or otherwise authenticatable by KERI but may employ some other Out-Of-Band-Authentication (OOBA) mechanism, i.e., non-KERI.
@@ -2668,7 +2668,7 @@ EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB
 This may be included as a path component of the URL, such as,
 
 ```python
-http://8.8.5.6:8080/oobi/EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB
+http://192.0.2.6:8080/oobi/EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB
 ```
 
 This is called an OOBI URL, or IURL for short. All that is needed to bootstrap the discovery of a KERI AID is an IURL. KERI can leverage the full IP/DNS infrastructure as a discovery bootstrap of an AID by providing an associated IURL.
@@ -2680,7 +2680,7 @@ https://example.com/oobi/EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB?role=witne
 ```
 
 ```python
-http://8.8.5.6:8080/oobi/EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB?role=watcher&name=eve
+http://192.0.2.6:8080/oobi/EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB?role=watcher&name=eve
 ```
 
 When the role is provided in the IURL, the EID of the endpoint provider for that role would be discovered via the proof returned by querying the URL. In addition, the proof returned may indicate a different URL for that role, so a self-describing IURL may also act as a forwarding mechanism.
@@ -2690,16 +2690,16 @@ To clarify, the minimum information in an OOBI is the pair `(URL, AID)`. The com
 
 #### Well-Known OOBI
 
-An OOBI may be returned as the result of a ‘GET’ request to an [[spec: RFC5785](#RFC5785)] well-known URL.
+An OOBI MAY be returned as the result of an HTTP `GET` request to a well-known URI [[spec: RFC8615](#RFC8615)] using the registered `oobi` suffix.
 
 For example,
 
 ```python
- /.well-known/keri/oobi/EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB
+ /.well-known/oobi/EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB
 ```
 
 Where:
-`EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB` is the AID and the result of the request is either the target URL or a redirection to the target URL, where the target URL can be found, such as,
+`EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB` is the AID. The result of the request is either the target URL or a redirection to the target URL, where the target URL can be found, such as,
 
 ```python
 https://example.com/witness/witmer
@@ -2707,10 +2707,10 @@ https://example.com/witness/witmer
 or
 
 ```python
-http://8.8.5.5:8080/witness/witmer
+http://192.0.2.5:8080/witness/witmer
 ```
 
-The resultant target URL may be in a different domain or IP address from the `well-known` resource.
+The resultant target URL may be in a different domain or IP address from the `well-known` resource. The AID in the path component MAY identify any KERI role. The request is unauthenticated and the response is untrusted at the transport layer; any returned material MUST be verified in-band before use, as with any other OOBI. Hosts that provision the `oobi` well-known suffix SHOULD make responses reachable over both `http` and `https`. The media type of a returned OOBI or OOBI reply message is determined by its CESR-compatible serialization, such as JSON, CBOR, MGPK, or native CESR.
 
 #### CID and EID
 
@@ -2726,7 +2726,7 @@ where `EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB` is the AID (CID) of the con
 Similarly,
 
 ```python
-http://8.8.5.6/oobi/EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB/witness/BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B
+http://192.0.2.6/oobi/EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB/witness/BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B
 ```
 
 
@@ -2810,11 +2810,11 @@ b'cheme":"https","url":"https://example.com/witness/wilma"}}')
 A bare URL but no AID may be used as a self (blind) OOBI for blind or self-introductions e.g., SOOBI. Querying that SOOBI may return or result in a default target OOBI or default target endpoint reply. This provides a mechanism for self-introduction or blind i.e., self OOBI (SOOBI). Consider the examples of self-OOBIs below.
 
 ```python
-http://8.8.5.7:8080/oobi
+http://192.0.2.7:8080/oobi
 
 http://localhost:8080/oobi
 
-http://8.8.5.7:8080/oobi?role=controller&name=eve
+http://192.0.2.7:8080/oobi?role=controller&name=eve
 
 http://localhost:8080/oobi?role=controller&name=eve
 ```
@@ -2835,6 +2835,8 @@ In every case, an OOBI may result in proof for a different URL than that provide
 
 An OOBI may be augmented with one or more OOBAs to minimize the likelihood of a DDOS OOBI attack. A given recipient may require as a precondition to accepting an OOBI one or more OOBA mechanisms, such as text messages, emails, etc., that provide some degree of non-KERI-based security to the OOBI. Thus, an OOBI could employ out-of-band (with respect to KERI) multi-factor authentication (MFA) to preclude any OOBI-based DDOS attacks on KERI.
 
+A specific OOBA pattern uses the Well-Known OOBI form as the unit of out-of-band authentication. The same AID is published at two or more `/.well-known/oobi/{aid}` locations hosted on independently controlled namespaces; for example, on a domain that the controller administers and on a third-party platform where the controller has an established account. Each well-known OOBI URL is delivered to the recipient through a channel whose compromise is independent of the others. The recipient resolves each well-known OOBI URL and compares the returned target URLs, treating the introduction as acceptable only when a configured threshold of namespaces returns a consistent OOBI for the same AID. An adversary must therefore compromise multiple independent namespaces to influence the bootstrap decision rather than only one. This pattern does not change the trust model of an OOBI; the AID binding produced by resolution is still cryptographically verified through KERI in the usual way. The multi-factor arrangement governs only whether the recipient is willing to bootstrap from the OOBIs at all.
+
 
 #### SPED (Speedy Percolated Endpoint Discovery)
 
@@ -2843,6 +2845,16 @@ All the information needed to discover and verify is bootstrapped from the OOBI.
 #### JIT/NTK Discovery
 
 With percolated discovery, discovery mechanisms can be made very efficient because they can be optimized for any given exchange of verifiable data that requires discovery. This is called just-in-time/need-to-know JIT/NTK discovery. Each Exchanger of verifiable data MUST have already verified the data before exchanging it with the Exchangee. Therefore, all the information needed to verify (proofs) MUST have already been available to the Exchanger, i.e., need-to-know. The Exchanger can then percolate that verification information to the Exchangee at the time of exchange, i.e,, just-in-time. This avoids the need to have a dedicated global infrastructure for the discovery of verifiable data and the associated proofs.
+
+#### Bootstrap Configuration
+
+OOBIs are commonly delivered to a node at startup through a configuration file. Implementations have converged on three named buckets that classify pre-configured OOBIs by their intended use: `iurls`, `durls`, and `wurls`. These buckets are a deployment convention and SHOULD NOT be treated as distinct wire forms; every entry is an OOBI in one of the forms defined above. The buckets signal to the consumer how each OOBI is expected to be resolved and where the resulting record is stored.
+
+- `iurls` (introduction OOBIs): OOBIs whose target AID identifies a KERI role such as a controller, witness, watcher, juror, judge, or registrar. Resolving an `iurls` entry yields KEL and endpoint-authorization proofs that populate the resolver's endpoint cache. An OOBI of unspecified purpose is an `iurls` entry.
+- `durls` (data OOBIs): OOBIs that resolve to SAID-addressed data rather than to a KERI AID, for example an ACDC schema referenced by a `sad` URI. Resolving a `durls` entry fetches content whose integrity is verified by re-deriving the SAID of the returned bytes and comparing it to the SAID embedded in the URI.
+- `wurls` (well-known OOBI URLs used for MFA): A list of singular well-known OOBI URLs designated by the operator for use as factors in an out-of-band multi-factor authentication arrangement. Each entry is one URL, not a MOOBI. A consumer that holds multiple `wurls` for the same AID drawn from independently controlled namespaces may treat agreement across them as evidence of an OOBA arrangement. A consumer may maintain `wurls` in a store separate from `iurls` and `durls` so that the additional trust assumptions of an OOBA arrangement do not leak into the general endpoint cache.
+
+The on-disk schema, file format, and merge semantics of a configuration file are out of scope for this specification.
 
 #### Summary
 
@@ -3110,6 +3122,8 @@ b't6j8TcdgABMN9x-eIyPi96J3B","scheme":"https","url":""}}')
 <a id="RFC5280">33</a><a id="ref33"></a>. RFC5280 [Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile](https://www.rfc-editor.org/rfc/rfc5280). D. Cooper; S. Santesson; S. Farrell; S. Boeyen; R. Housley; W. Polk; 2008-05. Status: Proposed Standard.
 
 <a id="RFC5785">34</a><a id="ref34"></a>. RFC5785 [Defining Well-Known Uniform Resource Identifiers (URIs)](https://www.rfc-editor.org/rfc/rfc5785). M. Nottingham; E. Hammer-Lahav; 2010-04. Status: Proposed Standard.
+
+<a id="RFC8615">42</a><a id="ref42"></a>. RFC8615 [Well-Known Uniform Resource Identifiers (URIs)](https://www.rfc-editor.org/rfc/rfc8615). M. Nottingham; 2019-05. Status: Proposed Standard. (Obsoletes RFC5785.)
 
 
 <a id="RFC6960">35</a><a id="ref35"></a>. RFC6960 [X.509 Internet Public Key Infrastructure Online Certificate Status Protocol - OCSP](https://www.rfc-editor.org/rfc/rfc6960). S. Santesson; M. Myers; R. Ankney; A. Malpani; S. Galperin; C. Adams; 2013-06. Status: Proposed Standard.
