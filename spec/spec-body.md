@@ -370,7 +370,7 @@ The Configuration Traits, `c` field value is a list of strings. These are specia
 |:---:|:---|:---:|:---|
 |`EO`| Establishment-Only | True |Only establishment events MUST appear in this KEL |
 |`DND`| Do-Not-Delegate | True | This KEL MUST NOT act as a delegator of delegated AIDs|
-|`DID`| Delegate-Is-Delegator | True | Treat a delegated AID the same as its Delegator AID|
+|`DID`| Delegate-Is-Delegator | True | Treat this delegated AID the same as its Delegator AID. Delegated inception only|
 |`RB`| Registrar-Backers | False | The backer list MUST provide registrar backer AIDs |
 |`NRB`| No-Registrar-Backers | False | Registrar backers are no longer allowed |
 
@@ -378,7 +378,7 @@ The `Establishment-Only`, `EO` config trait enables the Controller to increase i
 
 The `Do-Not-Delegate`, `DND` config trait enables the Controller to limit delegations entirely or limit the depth to which a given AID can delegate. This prevents spurious delegations. A delegation seal MAY appear in an Interaction event.  Interaction events are less secure than rotation events so this configuration trait prevents delegations.  In addition, a Delegatee holds its own private keys. Therefore, a given [[xref: toip1, delegatee, Delegatee]] could delegate other AIDS via interaction events that do not require the approval of its delegate. A Validator MUST invalidate, i.e., drop any delegated events whose Delegator has this configuration trait.
 
-The `Delegate-Is-Delegator`, `DID` config trait enables the Controller to signal to validators that any Delegate (Delegatee) AIDs are to be treated as equivalent to the Delegator. This enables horizontal scaling of a Delegator's signing infrastructure.
+The `Delegate-Is-Delegator`, `DID` config trait appears in the Delegated Inception, `dip` event of a Delegatee and MUST NOT appear in a non-delegated Inception, `icp` event. It signals to Validators that the Controller of the Delegatee, i.e., the entity that holds the private keys, and the Controller of the Delegator designated by the `di` field of that same event are one and the same entity. Because a Delegator MUST approve a Delegatee's delegated inception event by anchoring a delegation seal to that event in the Delegator's own KEL, the Delegator thereby also consents to the appearance of the `DID` config trait in that event. The assertion is granular and applies only to the delegation relationship established by the event in which it appears. It says nothing about any Delegatees that the Delegatee may itself delegate; each such delegation makes or withholds the assertion in its own delegated inception event. Were the trait to appear instead in a Delegator's inception event, its referent would be ambiguous, because a Delegator MAY itself be the Delegatee of a higher-level Delegator. This config trait enables horizontal scaling of a Controller's signing infrastructure by making the equivalence of the AIDs that Controller operates verifiable from their KELs.
 
 The `Registrar-Backer`, `RB` config trait indicates that the [[ref: Backer]] (witness) list in the establishment event in which this trait appears provides the AIDs of ledger registrar backers. The event MUST also include Registrar Backer Seal for each registrar backer in the list.  This config trait enables a KEL to start with or switch to using registrar backers instead of witnesses.
 
@@ -470,10 +470,9 @@ Event seals are used for endorsing delegated events and for endorsing external i
 
 ```json
 {
-
-  "i": "'EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur'",
+  "i": "EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC",
   "s": "1",
-  "d": "ENl9GdcDY-4hlg5GtVwOg2E9X7JHw-7Dr5Zq5KNirISF"
+  "d": "EEaJrM-0HPs4hATSqSpvotRBAjKuJO6ri5Uh7KBoLYbV"
 }
 ```
 
@@ -485,7 +484,7 @@ The JSON version is shown. There is also a native CESR version of the seal.
 
 ```json
 {
-  "i": "EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur",
+  "i": "EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC"
 }
 ```
 
@@ -503,7 +502,7 @@ The JSON version is shown. There is also a native CESR version of the seal.
 
 ```json
 {
-  "bi": "EDeCPBTHAt75Acgi9PfEciHFnc1r2DKAno3s9_QIYrXk",
+  "bi": "BHxCDxJrh6fpqTfOmT6OgtXnk-Unl-po8BR1Taa9n2Za",
   "d": "EA8_fj-Ezin_Us_gUcg5JQJkIIBnrcZt3HEIuH-E1lpe"
 }
 ```
@@ -561,10 +560,10 @@ The message body is provided as a [[ref: Python dict]]. This dict is then serial
 
 ```python
 {
-    "v": "KERICAACAAJSONAAKp.",
+    "v": "KERICAACAAJSONAAKk.",
     "t": "icp",
-    "d": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
-    "i": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+    "d": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
+    "i": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
     "s": "0",
     "kt": "2",
     "k":
@@ -588,7 +587,7 @@ The message body is provided as a [[ref: Python dict]]. This dict is then serial
         "BAPv2MnoiCsgOnklmFyfU07QDK_93NeH9iKfOy8V22aH",
         "BA4PSatfQMw1lYhQoZkSSvOCrE0Sdw1hmmniDL-yDtrB"
     ],
-    "c": ["DID"],
+    "c": [],
     "a": []
 }
 ```
@@ -596,15 +595,15 @@ The message body is provided as a [[ref: Python dict]]. This dict is then serial
 The raw JSON serialization of the message body is shown as a compact (no whitespace) Python byte string as follows:
 
 ```python
-(b'{"v":"KERICAACAAJSONAAKp.","t":"icp","d":"EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXj'
-b'BUcMVtvhmB","i":"EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB","s":"0","kt":'
+(b'{"v":"KERICAACAAJSONAAKk.","t":"icp","d":"EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuV'
+b'SUslB-8uRN","i":"EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN","s":"0","kt":'
 b'"2","k":["DBFiIgoCOpJ_zW_OO0GdffhHfEvJWb1HxpDx95bFvufu","DG-YwInLUxzVDD5z8Sq'
 b'ZmS2FppXSB-ZX_f2bJC_ZnsM5","DGIAk2jkC3xuLIe-DI9rcA0naevtZiKuU9wz91L_qBAV"],"'
 b'nt":"2","n":["ELeFYMmuJb0hevKjhv97joA5bTfuA8E697cMzi8eoaZB","ENY9GYShOjeh7qZ'
 b'UpIipKRHgrWcoR2WkJ7Wgj4wZx1YT","EGyJ7y3TlewCW97dgBN-4pckhCqsni-zHNZ_G8zVerPG'
 b'"],"bt":"3","b":["BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B","BJfueFAYc7N'
 b'_V-zmDEn2SPCoVFx3H20alWsNZKgsS1vt","BAPv2MnoiCsgOnklmFyfU07QDK_93NeH9iKfOy8V'
-b'22aH","BA4PSatfQMw1lYhQoZkSSvOCrE0Sdw1hmmniDL-yDtrB"],"c":["DID"],"a":[]}')
+b'22aH","BA4PSatfQMw1lYhQoZkSSvOCrE0Sdw1hmmniDL-yDtrB"],"c":[],"a":[]}')
 ```
 
 The next key digests in the message body are derived from the following set of next keys:
@@ -616,7 +615,7 @@ The next key digests in the message body are derived from the following set of n
 ]
 ```
 
-The AID created by this inception event is the value of the `i` field, that is, `EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB`. For the purposes of the examples, let this be given the user-friendly alias `ean` as in Ean's AID. Notice that the config trait list for Ean has the config trait `DID` for `Delegate-Is-Delegator` which means that Validators may treat Delegates (Delegatees) of Ean as if they were Ean.
+The AID created by this inception event is the value of the `i` field, that is, `EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN`. For the purposes of the examples, let this be given the user-friendly alias `ean` as in Ean's AID. Ean's config trait list is empty; Ean is the Delegator rather than the Delegatee of the delegation shown in the examples that follow, so the `DID` config trait, which belongs in a Delegatee's Delegated Inception, `dip` event, has no referent here.
 
 #### Delegated Inception Event Message Body
 
@@ -634,16 +633,16 @@ The message body is provided as a Python dict. This dict is then serialized usin
 {
     "v": "KERICAACAAJSONAAE8.",
     "t": "ixn",
-    "d": "EDeCPBTHAt75Acgi9PfEciHFnc1r2DKAno3s9_QIYrXk",
-    "i": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+    "d": "EHTLoDjCFXSEHnOJiwdwyeHGqRsRRMlwMuggAGigSsXx",
+    "i": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
     "s": "1",
-    "p": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+    "p": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
     "a":
     [
         {
-            "i": "EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur",
+            "i": "EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC",
             "s": "0",
-            "d": "EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur"
+            "d": "EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC"
         }
     ]
 }
@@ -652,11 +651,11 @@ The message body is provided as a Python dict. This dict is then serialized usin
 The raw JSON serialization of the message body is shown as a compact (no whitespace) Python byte string as follows:
 
 ```python
-(b'{"v":"KERICAACAAJSONAAE8.","t":"ixn","d":"EDeCPBTHAt75Acgi9PfEciHFnc1r2DKAno'
-b'3s9_QIYrXk","i":"EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB","s":"1","p":"'
-b'EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB","a":[{"i":"EHqSsH1Imc2MEcgzEor'
-b'dBUFqJKWTcRyTz2GRc2SG3aur","s":"0","d":"EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GR'
-b'c2SG3aur"}]}')
+(b'{"v":"KERICAACAAJSONAAE8.","t":"ixn","d":"EHTLoDjCFXSEHnOJiwdwyeHGqRsRRMlwMu'
+b'ggAGigSsXx","i":"EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN","s":"1","p":"'
+b'EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN","a":[{"i":"EJync0CSV0HLN4zdVgC'
+b'yIUHIG_KiZTRFByXJcOclFbaC","s":"0","d":"EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJ'
+b'cOclFbaC"}]}')
 ```
 Notice that in this example the Issuer is Ean and uses Ean's AID for the `i` field value. This Interaction event is sealing the delegation of Fay's AID by virtue of a SealEvent dict in the data attribute field list. In the event seal, the `i` field value is Fay's AID. The `s` field value is the hex encoded sequence number of Fay's delegated inception event, and the `d` field value is the SAID of Fay's delegated inception event. The combination of the appearance of this seal in Ean's KEL for an establishment event in the KEL of a delegated AID that designates Ean's AID as the Delegator in that KEL's Inception event provides a cryptographically verifiable two-way binding (sometimes called a two-way peg) between the delegating and delegated events.
 
@@ -672,10 +671,10 @@ The message body is provided as a Python dict. This dict is then serialized usin
 {
     "v": "KERICAACAAJSONAAMf.",
     "t": "rot",
-    "d": "EJOnAKXGaSyJ_43kit0V806NNeGWS07lfjybB1UcfWsv",
-    "i": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+    "d": "EDB2wjbby-xefglmIDinyPpp3cFO6ZG8CpnERMvLMh9z",
+    "i": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
     "s": "2",
-    "p": "EDeCPBTHAt75Acgi9PfEciHFnc1r2DKAno3s9_QIYrXk",
+    "p": "EHTLoDjCFXSEHnOJiwdwyeHGqRsRRMlwMuggAGigSsXx",
     "kt": "2",
     "k":
     [
@@ -704,9 +703,9 @@ The message body is provided as a Python dict. This dict is then serialized usin
     "a":
     [
         {
-            "i": "EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur",
+            "i": "EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC",
             "s": "1",
-            "d": "ENl9GdcDY-4hlg5GtVwOg2E9X7JHw-7Dr5Zq5KNirISF"
+            "d": "EEaJrM-0HPs4hATSqSpvotRBAjKuJO6ri5Uh7KBoLYbV"
         }
     ]
 }
@@ -715,17 +714,17 @@ The message body is provided as a Python dict. This dict is then serialized usin
 The raw JSON serialization of the message body is shown as a compact (no whitespace) Python byte string as follows:
 
 ```python
-(b'{"v":"KERICAACAAJSONAAMf.","t":"rot","d":"EJOnAKXGaSyJ_43kit0V806NNeGWS07lfj'
-b'ybB1UcfWsv","i":"EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB","s":"2","p":"'
-b'EDeCPBTHAt75Acgi9PfEciHFnc1r2DKAno3s9_QIYrXk","kt":"2","k":["DLv9BlDvjcZWkfP'
+(b'{"v":"KERICAACAAJSONAAMf.","t":"rot","d":"EDB2wjbby-xefglmIDinyPpp3cFO6ZG8Cp'
+b'nERMvLMh9z","i":"EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN","s":"2","p":"'
+b'EHTLoDjCFXSEHnOJiwdwyeHGqRsRRMlwMuggAGigSsXx","kt":"2","k":["DLv9BlDvjcZWkfP'
 b'fWcYhNK-xQxz89h82_wA184Vxk8dj","DCx3WypeBym3fCkVizTg18qEThSrVnB63dFq2oX5c3mz'
 b'","DO0PG_ww4PbF2jUIxQnlb4DluJu5ndNehp0BTGWXErXf"],"nt":"2","n":["EA8_fj-Ezin'
 b'_Us_gUcg5JQJkIIBnrcZt3HEIuH-E1lpe","EERS8udHp2FW89nmaHweQWnZz7I8v9FTQdA-LZ_a'
 b'mqGh","EAEzmrPusrj4CDKnSFQvhCEW6T95C7hBeFtZtRD7rOTg"],"bt":"4","br":["BA4PSa'
 b'tfQMw1lYhQoZkSSvOCrE0Sdw1hmmniDL-yDtrB"],"ba":["BO3cCAfQiqndZBBxwNk6RGkyA-OA'
 b'1XbZhBj3s4-VIsCo","BPowpltoeF14nMbU1ng89JSoYf3AmWhZ50KaCaVO6SIW"],"c":[],"a"'
-b':[{"i":"EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur","s":"1","d":"ENl9GdcDY'
-b'-4hlg5GtVwOg2E9X7JHw-7Dr5Zq5KNirISF"}]}')
+b':[{"i":"EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC","s":"1","d":"EEaJrM-0H'
+b'Ps4hATSqSpvotRBAjKuJO6ri5Uh7KBoLYbV"}]}')
 
 ```
 
@@ -753,8 +752,8 @@ The message body is provided as a Python dict. This dict is then serialized usin
 {
     "v": "KERICAACAAJSONAAL4.",
     "t": "dip",
-    "d": "EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur",
-    "i": "EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur",
+    "d": "EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC",
+    "i": "EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC",
     "s": "0",
     "kt": ["1/2", "1/2", "1/2"],
     'k':
@@ -780,14 +779,14 @@ The message body is provided as a Python dict. This dict is then serialized usin
     ],
     "c": [],
     "a": [],
-    "di": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB"
+    "di": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN"
 }
 ```
 
 The raw JSON serialization of the message body is shown as a compact (no whitespace) Python byte string as follows:
 ```python
-(b'{"v":"KERICAACAAJSONAAL4.","t":"dip","d":"EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2'
-b'GRc2SG3aur","i":"EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur","s":"0","kt":'
+(b'{"v":"KERICAACAAJSONAAL4.","t":"dip","d":"EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFBy'
+b'XJcOclFbaC","i":"EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC","s":"0","kt":'
 b'["1/2","1/2","1/2"],"k":["DEE-HCMSwqMDkEBzlmUNmVBAGIinGu7wZ5_hfY6bSMz3","DHy'
 b'JFyFzuD5vvUWv5jy6nwWI3wZmSnoePu29tBR-jXkv","DN3JXVEvIjTbisPC4maYQWy6eQIRNdJs'
 b'xqGFXYUm_ygr"],"nt":["1/2","1/2","1/2"],"n":["EFzr1nnfHpT-nkSfd6vQvbPC-Kq6zy'
@@ -795,7 +794,7 @@ b'8vbVvUmwxcM1e-","EIXFsLk9kmESy0ZsoHMUaDyK_g3DVRiJQYiAlyeCeYJM","EGVvq4Njkki3'
 b'EZv838rJrYShBtwXY9o8RUrG2w3nbujn"],"bt":"3","b":["BFATArhqG_ktVCRLWt2Knbc7JD'
 b'paPAFJ4npNEmIW_gPX","BOtF-I9geAUjX9NW1kLIq5qDRNgEXCuwpE4mKHkYuWsF","BEzZUvas'
 b'hpXh_nfPoR6aiqvag0a8E_tbhpeJIgHhOXzl","BCE6biH4a-Zg8LI3cMSx7JRoOvb8rRD62xbyl'
-b'9N4M2g6"],"c":[],"a":[],"di":"EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB"}')
+b'9N4M2g6"],"c":[],"a":[],"di":"EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN"}')
 ```
 The next key digests in the message body are derived from the following set of next keys:
 
@@ -807,7 +806,7 @@ The next key digests in the message body are derived from the following set of n
 ]
 ```
 
-The AID created by this inception event is the value of the `i` field, that is, `EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur`. For the purposes of the examples, let this be given the user-friendly alias `fay` as in Fay's AID. Notice that the Delegator AID given by the `di` field value is Ean's AID. To clarify, Ean is the Delegator of Fay the Delegatee. Also, notice that the thresholds for the signing keys and next rotation keys use the syntax of a fractionally weighted threshold instead of a simple numeric threshold.
+The AID created by this inception event is the value of the `i` field, that is, `EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC`. For the purposes of the examples, let this be given the user-friendly alias `fay` as in Fay's AID. Notice that the Delegator AID given by the `di` field value is Ean's AID. To clarify, Ean is the Delegator of Fay the Delegatee. Also, notice that the thresholds for the signing keys and next rotation keys use the syntax of a fractionally weighted threshold instead of a simple numeric threshold.
 
 
 #### Delegated Rotation Event Message Body
@@ -822,10 +821,10 @@ The message body is provided as a Python dict. This dict is then serialized usin
 {
     "v": "KERICAACAAJSONAAKh.",
     "t": "drt",
-    "d": "ENl9GdcDY-4hlg5GtVwOg2E9X7JHw-7Dr5Zq5KNirISF",
-    "i": "EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur",
+    "d": "EEaJrM-0HPs4hATSqSpvotRBAjKuJO6ri5Uh7KBoLYbV",
+    "i": "EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC",
     "s": "1",
-    "p": "EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur",
+    "p": "EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC",
     "kt": ["1/2", "1/2", "1/2"],
     "k":
     [
@@ -851,9 +850,9 @@ The message body is provided as a Python dict. This dict is then serialized usin
 The raw JSON serialization of the message body is shown as a compact (no whitespace) Python byte string as follows:
 
 ```python
-(b'{"v":"KERICAACAAJSONAAKh.","t":"drt","d":"ENl9GdcDY-4hlg5GtVwOg2E9X7JHw-7Dr5'
-b'Zq5KNirISF","i":"EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur","s":"1","p":"'
-b'EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur","kt":["1/2","1/2","1/2"],"k":['
+(b'{"v":"KERICAACAAJSONAAKh.","t":"drt","d":"EEaJrM-0HPs4hATSqSpvotRBAjKuJO6ri5'
+b'Uh7KBoLYbV","i":"EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC","s":"1","p":"'
+b'EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC","kt":["1/2","1/2","1/2"],"k":['
 b'"DB1S8zOh4_qdFhxVHn7BDZb1ErWbBFvcVJX1suKSBctR","DDCDFlbG4dCAX6oIbNffB1mkZqLA'
 b'S_eHnYUUIPH7BeXB","DP3GAMcSx7eCApzk1N7DceV42o1dZemAe0s3r_-Z0zs1"],"nt":["1/2'
 b'","1/2","1/2"],"n":["EKUlc5Ml4HLSvdk39k_vh0m6rc061mfM1a4qoEuiBwXW","EJdqHiij'
@@ -895,8 +894,8 @@ The message body is provided as a Python dict. This dict is then serialized. The
 {
     "v": "KERICAACAAJSONAACT.",
     "t": "rct",
-    "d": "EJOnAKXGaSyJ_43kit0V806NNeGWS07lfjybB1UcfWsv",
-    "i": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+    "d": "EDB2wjbby-xefglmIDinyPpp3cFO6ZG8CpnERMvLMh9z",
+    "i": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
     "s": "2"
 }
 ```
@@ -904,8 +903,8 @@ The message body is provided as a Python dict. This dict is then serialized. The
 The raw JSON serialization of the message body is shown as a compact (no whitespace) Python byte string as follows:
 
 ```python
-(b'{"v":"KERICAACAAJSONAACT.","t":"rct","d":"EJOnAKXGaSyJ_43kit0V806NNeGWS07lfj'
-b'ybB1UcfWsv","i":"EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB","s":"2"}')
+(b'{"v":"KERICAACAAJSONAACT.","t":"rct","d":"EDB2wjbby-xefglmIDinyPpp3cFO6ZG8Cp'
+b'nERMvLMh9z","i":"EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN","s":"2"}')
 ```
 
 Notice that this is a receipt for Ean's Rotation Event message above.
@@ -1017,14 +1016,14 @@ The message body is provided as a Python dict. This dict is then serialized usin
 {
     "v": "KERICAACAAJSONAAEe.",
     "t": "qry",
-    "d": "EEiUK4cVgcyA1Dk6g2jFzqc5JerkaSnJi3IosutVCyYO",
-    "i": "EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur",
+    "d": "EDH-jhkIhzSg24dEuawgvwrG5NmaGuFpcLq3_jt69Gi6",
+    "i": "EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC",
     "dt": "2025-08-21T17:50:00.000000+00:00",
     "r": "/oobi",
     "rr": "/oobi/process",
     "q":
     {
-        "i": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+        "i": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
         "role": "witness"
     }
 }
@@ -1033,10 +1032,10 @@ The message body is provided as a Python dict. This dict is then serialized usin
 The raw JSON serialization of the message body is shown as a compact (no whitespace) Python byte string as follows:
 
 ```python
-(b'{"v":"KERICAACAAJSONAAEe.","t":"qry","d":"EEiUK4cVgcyA1Dk6g2jFzqc5JerkaSnJi3'
-b'IosutVCyYO","i":"EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur","dt":"2025-08'
-b'-21T17:50:00.000000+00:00","r":"/oobi","rr":"/oobi/process","q":{"i":"EPR7FW'
-b'sN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB","role":"witness"}}')
+(b'{"v":"KERICAACAAJSONAAEe.","t":"qry","d":"EDH-jhkIhzSg24dEuawgvwrG5NmaGuFpcL'
+b'q3_jt69Gi6","i":"EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC","dt":"2025-08'
+b'-21T17:50:00.000000+00:00","r":"/oobi","rr":"/oobi/process","q":{"i":"EMZBns'
+b's7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN","role":"witness"}}')
 ```
 
 The issuer/sender of this message is Fay because Fay's AID appears in the top-level `i` field. The query could be to fetch a witness OOBI for Ean. This is determined by the route and the appearance of Ean's AID in the `i` field of the query `q` block and the role being "witness".
@@ -1054,13 +1053,13 @@ The message body is provided as a Python dict. This dict is then serialized usin
 {
     "v": "KERICAACAAJSONAAFR.",
     "t": "rpy",
-    "d": "EPdgmUkvx5o_KRg3elBqj_vSZOFgWI9hCVWO-FfGZz8U",
-    "i": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+    "d": "ELmXgZxjRRAPXy7_miHaNkMhz2G0yaTiy78H5zQQp_Dq",
+    "i": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
     "dt": "2020-08-21T17:52:00.000000+00:00",
     "r": "/oobi/process",
     "a":
     {
-        "i": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+        "i": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
         "url": "https://example.com/witness/BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B"
     }
 }
@@ -1069,10 +1068,10 @@ The message body is provided as a Python dict. This dict is then serialized usin
 The raw JSON serialization of the message body is shown as a compact (no whitespace) Python byte string as follows:
 
 ```python
-(b'{"v":"KERICAACAAJSONAAFR.","t":"rpy","d":"EPdgmUkvx5o_KRg3elBqj_vSZOFgWI9hCV'
-b'WO-FfGZz8U","i":"EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB","dt":"2020-08'
-b'-21T17:52:00.000000+00:00","r":"/oobi/process","a":{"i":"EPR7FWsN3tOM8PqfMap'
-b'2FRfF4MFQ4v3ZXjBUcMVtvhmB","url":"https://example.com/witness/BGKV6v93ue5L5w'
+(b'{"v":"KERICAACAAJSONAAFR.","t":"rpy","d":"ELmXgZxjRRAPXy7_miHaNkMhz2G0yaTiy7'
+b'8H5zQQp_Dq","i":"EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN","dt":"2020-08'
+b'-21T17:52:00.000000+00:00","r":"/oobi/process","a":{"i":"EMZBnss7FmDlFir3D6h'
+b'pNyyNYyuDWYARuVSUslB-8uRN","url":"https://example.com/witness/BGKV6v93ue5L5w'
 b'sgk75t6j8TcdgABMN9x-eIyPi96J3B"}}')
 ```
 
@@ -1089,14 +1088,14 @@ The message body is provided as a Python dict. This dict is then serialized usin
 {
     "v": "KERICAACAAJSONAAEp.",
     "t": "pro",
-    "d": "EHNqhJXgUdYHFzNiuO7Ue06QWRnOMjhTrVt_QGOfZjH_",
-    "i": "EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur",
+    "d": "ED13KketbicYgoAj44QWT-qHy-Giez3WtsDbl3us3NA-",
+    "i": "EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC",
     "dt": "2025-08-21T17:50:00.000000+00:00",
     "r": "/confidential",
     "rr": "/confidential/process",
     "q":
     {
-        "i": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+        "i": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
         "name": True
     }
 }
@@ -1104,10 +1103,10 @@ The message body is provided as a Python dict. This dict is then serialized usin
 
 The raw JSON serialization of the message body is shown as a compact (no whitespace) Python byte string as follows:
 ```python
-(b'{"v":"KERICAACAAJSONAAEp.","t":"pro","d":"EHNqhJXgUdYHFzNiuO7Ue06QWRnOMjhTrV'
-b't_QGOfZjH_","i":"EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur","dt":"2025-08'
+(b'{"v":"KERICAACAAJSONAAEp.","t":"pro","d":"ED13KketbicYgoAj44QWT-qHy-Giez3Wts'
+b'Dbl3us3NA-","i":"EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC","dt":"2025-08'
 b'-21T17:50:00.000000+00:00","r":"/confidential","rr":"/confidential/process",'
-b'"q":{"i":"EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB","name":true}}')
+b'"q":{"i":"EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN","name":true}}')
 ```
 
 In this example, Fay is prodding Ean for his name.
@@ -1127,13 +1126,13 @@ The message body is provided as a Python dict. This dict is then serialized usin
 {
     "v": "KERICAACAAJSONAAEV.",
     "t": "bar",
-    "d": "EMSlSHIe04CuAqhz55nAnBpE_0T65Sqs2fmaPpsNIbnn",
-    "i": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+    "d": "EFvOLw6kMz1F5YEiQkGAEJYW4d5cyRVS7UJWhKhkYpIl",
+    "i": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
     "dt": "2020-08-22T17:52:00.000000+00:00",
     "r": "/confidential/process",
     "a":
     {
-        "i": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+        "i": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
         "name": "Ean"
     }
 }
@@ -1141,10 +1140,10 @@ The message body is provided as a Python dict. This dict is then serialized usin
 
 The raw JSON serialization of the message body is shown as a compact (no whitespace) Python byte string as follows:
 ```python
-(b'{"v":"KERICAACAAJSONAAEV.","t":"bar","d":"EMSlSHIe04CuAqhz55nAnBpE_0T65Sqs2f'
-b'maPpsNIbnn","i":"EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB","dt":"2020-08'
-b'-22T17:52:00.000000+00:00","r":"/confidential/process","a":{"i":"EPR7FWsN3tO'
-b'M8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB","name":"Ean"}}')
+(b'{"v":"KERICAACAAJSONAAEV.","t":"bar","d":"EFvOLw6kMz1F5YEiQkGAEJYW4d5cyRVS7U'
+b'JWhKhkYpIl","i":"EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN","dt":"2020-08'
+b'-22T17:52:00.000000+00:00","r":"/confidential/process","a":{"i":"EMZBnss7FmD'
+b'lFir3D6hpNyyNYyuDWYARuVSUslB-8uRN","name":"Ean"}}')
 ```
 
 This message has Ean exposing his name.
@@ -1162,10 +1161,10 @@ The message body is provided as a Python dict. This dict is then serialized usin
 {
     "v": "KERICAACAAJSONAAFn.",
     "t": "xip",
-    "d": "EJbE2agA3239Iusld1lNvFAxRuhv1SX0mAxxUm67gWOU",
+    "d": "EP-HUOsmNTzFrzdeoGYSHMCWf3uDZRVyGET2IwRFkDA-",
     "u": "0ABrZXJpc3BlY3dvcmtyYXcw",
-    "i": "EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur",
-    "ri": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+    "i": "EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC",
+    "ri": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
     "dt": "2020-08-30T13:30:10.123456+00:00",
     "r": "/offer",
     "q":
@@ -1183,9 +1182,9 @@ The message body is provided as a Python dict. This dict is then serialized usin
 
 The raw JSON serialization of the message body is shown as a compact (no whitespace) Python byte string as follows:
 ```python
-(b'{"v":"KERICAACAAJSONAAFn.","t":"xip","d":"EJbE2agA3239Iusld1lNvFAxRuhv1SX0mA'
-b'xxUm67gWOU","u":"0ABrZXJpc3BlY3dvcmtyYXcw","i":"EHqSsH1Imc2MEcgzEordBUFqJKWT'
-b'cRyTz2GRc2SG3aur","ri":"EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB","dt":"'
+(b'{"v":"KERICAACAAJSONAAFn.","t":"xip","d":"EP-HUOsmNTzFrzdeoGYSHMCWf3uDZRVyGE'
+b'T2IwRFkDA-","u":"0ABrZXJpc3BlY3dvcmtyYXcw","i":"EJync0CSV0HLN4zdVgCyIUHIG_Ki'
+b'ZTRFByXJcOclFbaC","ri":"EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN","dt":"'
 b'2020-08-30T13:30:10.123456+00:00","r":"/offer","q":{"timing":"immediate"},"a'
 b'":{"action":"sell","item":"Rembrant","price":300000.0}}')
 ```
@@ -1205,11 +1204,11 @@ The message body is provided as a Python dict. This dict is then serialized usin
 {
     "v": "KERICAACAAJSONAAGt.",
     "t": "exn",
-    "d": "EEIp1e5v4L6rt7cp1nRsn4mN6bJVUDyIQEATIzxR8UnE",
-    "i": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
-    "ri": "EHqSsH1Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur",
-    "x": "EJbE2agA3239Iusld1lNvFAxRuhv1SX0mAxxUm67gWOU",
-    "p": "EJbE2agA3239Iusld1lNvFAxRuhv1SX0mAxxUm67gWOU",
+    "d": "ECroaY6bkgw0LijKoIcwrceXkTIqnfCRBnKyXIpBO-0G",
+    "i": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
+    "ri": "EJync0CSV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC",
+    "x": "EP-HUOsmNTzFrzdeoGYSHMCWf3uDZRVyGET2IwRFkDA-",
+    "p": "EP-HUOsmNTzFrzdeoGYSHMCWf3uDZRVyGET2IwRFkDA-",
     "dt": "2020-08-30T13:42:11.123456+00:00",
     "r": "/agree",
     "q":
@@ -1227,10 +1226,10 @@ The message body is provided as a Python dict. This dict is then serialized usin
 
 The raw JSON serialization of the message body is shown as a compact (no whitespace) Python byte string as follows:
 ```python
-(b'{"v":"KERICAACAAJSONAAGt.","t":"exn","d":"EEIp1e5v4L6rt7cp1nRsn4mN6bJVUDyIQE'
-b'ATIzxR8UnE","i":"EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB","ri":"EHqSsH1'
-b'Imc2MEcgzEordBUFqJKWTcRyTz2GRc2SG3aur","x":"EJbE2agA3239Iusld1lNvFAxRuhv1SX0'
-b'mAxxUm67gWOU","p":"EJbE2agA3239Iusld1lNvFAxRuhv1SX0mAxxUm67gWOU","dt":"2020-'
+(b'{"v":"KERICAACAAJSONAAGt.","t":"exn","d":"ECroaY6bkgw0LijKoIcwrceXkTIqnfCRBn'
+b'KyXIpBO-0G","i":"EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN","ri":"EJync0C'
+b'SV0HLN4zdVgCyIUHIG_KiZTRFByXJcOclFbaC","x":"EP-HUOsmNTzFrzdeoGYSHMCWf3uDZRVy'
+b'GET2IwRFkDA-","p":"EP-HUOsmNTzFrzdeoGYSHMCWf3uDZRVyGET2IwRFkDA-","dt":"2020-'
 b'08-30T13:42:11.123456+00:00","r":"/agree","q":{"timing":"immediate"},"a":{"a'
 b'ction":"buy","item":"Rembrant","price":300000.0}}')
 ```
@@ -2158,10 +2157,10 @@ Message body as a Python dict.
 
 ```python
 {
-        'v': 'KERICAACAACESRAAJM.',
+        'v': 'KERICAACAACESRAAJI.',
         't': 'icp',
-        'd': 'EDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs',
-        'i': 'EDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs',
+        'd': 'EFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl',
+        'i': 'EFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl',
         's': '0',
         'kt': '2',
         'k':
@@ -2185,7 +2184,7 @@ Message body as a Python dict.
             'BAPv2MnoiCsgOnklmFyfU07QDK_93NeH9iKfOy8V22aH',
             'BA4PSatfQMw1lYhQoZkSSvOCrE0Sdw1hmmniDL-yDtrB'
         ],
-        'c': ['DID'],
+        'c': [],
         'a': []
     }
 ```
@@ -2193,14 +2192,14 @@ Message body as a Python dict.
 CESR serialization as a Python byte string.
 
 ```python
-(b'-FCS0OKERICAACAAXicpEDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYsEDZOA3y_b_0L'
-b'G4_cfpKTbWU-_3eeYNM0w9iTkT7frTYsMAAAMAAC-JAhDBFiIgoCOpJ_zW_OO0GdffhHfEvJWb1H'
+(b'-FCR0OKERICAACAAXicpEFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPlEFGEi3daBWvN'
+b'OZ3riL93RhKMd3qrAt2cPP4GYpdQKUPlMAAAMAAC-JAhDBFiIgoCOpJ_zW_OO0GdffhHfEvJWb1H'
 b'xpDx95bFvufuDG-YwInLUxzVDD5z8SqZmS2FppXSB-ZX_f2bJC_ZnsM5DGIAk2jkC3xuLIe-DI9r'
 b'cA0naevtZiKuU9wz91L_qBAVMAAC-JAhELeFYMmuJb0hevKjhv97joA5bTfuA8E697cMzi8eoaZB'
 b'ENY9GYShOjeh7qZUpIipKRHgrWcoR2WkJ7Wgj4wZx1YTEGyJ7y3TlewCW97dgBN-4pckhCqsni-z'
 b'HNZ_G8zVerPGMAAD-JAsBGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3BBJfueFAYc7N_'
 b'V-zmDEn2SPCoVFx3H20alWsNZKgsS1vtBAPv2MnoiCsgOnklmFyfU07QDK_93NeH9iKfOy8V22aH'
-b'BA4PSatfQMw1lYhQoZkSSvOCrE0Sdw1hmmniDL-yDtrB-JABXDID-JAA')
+b'BA4PSatfQMw1lYhQoZkSSvOCrE0Sdw1hmmniDL-yDtrB-JAA-JAA')
 ```
 ##### Interaction `ixn`
 
@@ -2211,16 +2210,16 @@ Message body as a Python dict.
 {
     'v': 'KERICAACAACESRAAEA.',
     't': 'ixn',
-    'd': 'EDmgVuwPOXDjIW3reg4_k8SeJoQEKJKP24fGzeMV4uKD',
-    'i': 'EDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs',
+    'd': 'EIGnvQZsQmEJFDzTvkpYVeWe5p4b7Li4Wenec-hrxSUu',
+    'i': 'EFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl',
     's': '1',
-    'p': 'EDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs',
+    'p': 'EFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl',
     'a':
     [
         {
-            'i': 'EF-jViYoBr8p3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg3',
+            'i': 'EPdjet_gItRBeXagqaAm3q9-yt5gZRc2vQKUW46Affqm',
             's': '0',
-            'd': 'EF-jViYoBr8p3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg3'
+            'd': 'EPdjet_gItRBeXagqaAm3q9-yt5gZRc2vQKUW46Affqm'
         }
     ]
 }
@@ -2228,10 +2227,10 @@ Message body as a Python dict.
 
 CESR serialization as a Python byte string.
 ```python
-(b'-FA_0OKERICAACAAXixnEDmgVuwPOXDjIW3reg4_k8SeJoQEKJKP24fGzeMV4uKDEDZOA3y_b_0L'
-b'G4_cfpKTbWU-_3eeYNM0w9iTkT7frTYsMAABEDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7f'
-b'rTYs-JAY-TAXEF-jViYoBr8p3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg3MAAAEF-jViYoBr8p3vkp'
-b'ZuHlkvxAAY5GZkmQ0QaaHfiE0kg3')
+(b'-FA_0OKERICAACAAXixnEIGnvQZsQmEJFDzTvkpYVeWe5p4b7Li4Wenec-hrxSUuEFGEi3daBWvN'
+b'OZ3riL93RhKMd3qrAt2cPP4GYpdQKUPlMAABEFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQ'
+b'KUPl-JAY-TAXEPdjet_gItRBeXagqaAm3q9-yt5gZRc2vQKUW46AffqmMAAAEPdjet_gItRBeXag'
+b'qaAm3q9-yt5gZRc2vQKUW46Affqm')
 ```
 
 
@@ -2244,8 +2243,8 @@ Message body as a Python dict.
 {
     'v': 'KERICAACAACESRAAKM.',
     't': 'dip',
-    'd': 'EF-jViYoBr8p3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg3',
-    'i': 'EF-jViYoBr8p3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg3',
+    'd': 'EPdjet_gItRBeXagqaAm3q9-yt5gZRc2vQKUW46Affqm',
+    'i': 'EPdjet_gItRBeXagqaAm3q9-yt5gZRc2vQKUW46Affqm',
     's': '0',
     'kt': ['1/2', '1/2', '1/2'],
     'k':
@@ -2271,21 +2270,21 @@ Message body as a Python dict.
     ],
     'c': [],
     'a': [],
-    'di': 'EDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs'
+    'di': 'EFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl'
 }
 ```
 
 CESR serialization as a Python byte string.
 ```python
-(b'-FCi0OKERICAACAAXdipEF-jViYoBr8p3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg3EF-jViYoBr8p'
-b'3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg3MAAA4AADA1s2c1s2c1s2-JAhDEE-HCMSwqMDkEBzlmUN'
+(b'-FCi0OKERICAACAAXdipEPdjet_gItRBeXagqaAm3q9-yt5gZRc2vQKUW46AffqmEPdjet_gItRB'
+b'eXagqaAm3q9-yt5gZRc2vQKUW46AffqmMAAA4AADA1s2c1s2c1s2-JAhDEE-HCMSwqMDkEBzlmUN'
 b'mVBAGIinGu7wZ5_hfY6bSMz3DHyJFyFzuD5vvUWv5jy6nwWI3wZmSnoePu29tBR-jXkvDN3JXVEv'
 b'IjTbisPC4maYQWy6eQIRNdJsxqGFXYUm_ygr4AADA1s2c1s2c1s2-JAhEFzr1nnfHpT-nkSfd6vQ'
 b'vbPC-Kq6zy8vbVvUmwxcM1e-EIXFsLk9kmESy0ZsoHMUaDyK_g3DVRiJQYiAlyeCeYJMEGVvq4Nj'
 b'kki3EZv838rJrYShBtwXY9o8RUrG2w3nbujnMAAD-JAsBFATArhqG_ktVCRLWt2Knbc7JDpaPAFJ'
 b'4npNEmIW_gPXBOtF-I9geAUjX9NW1kLIq5qDRNgEXCuwpE4mKHkYuWsFBEzZUvashpXh_nfPoR6a'
 b'iqvag0a8E_tbhpeJIgHhOXzlBCE6biH4a-Zg8LI3cMSx7JRoOvb8rRD62xbyl9N4M2g6-JAA-JAA'
-b'EDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs')
+b'EFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl')
 ```
 
 
@@ -2298,10 +2297,10 @@ Message body as a Python dict.
 {
     'v': 'KERICAACAACESRAAKs.',
     't': 'rot',
-    'd': 'EADBM_Gjzv1_mImlJPPD0bzYmUXmXmCiFIncRYfZMaFc',
-    'i': 'EDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs',
+    'd': 'EBxDwqO3n2CfSV2eU9uZGQdD2nZY0N4HongFEftt4kam',
+    'i': 'EFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl',
     's': '2',
-    'p': 'EDmgVuwPOXDjIW3reg4_k8SeJoQEKJKP24fGzeMV4uKD',
+    'p': 'EIGnvQZsQmEJFDzTvkpYVeWe5p4b7Li4Wenec-hrxSUu',
     'kt': '2',
     'k':
     [
@@ -2327,9 +2326,9 @@ Message body as a Python dict.
     'a':
     [
         {
-            'i': 'EF-jViYoBr8p3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg3',
+            'i': 'EPdjet_gItRBeXagqaAm3q9-yt5gZRc2vQKUW46Affqm',
             's': '1',
-            'd': 'EFzRkEIXetj-ojZaj0U6P9OqroqZzV0kYwoHGqnlUOwv'
+            'd': 'ENJEBes6djQe9UyVwLD8ZnvxySkLe2bYvTdJuCHzeS4U'
         }
     ]
 }
@@ -2337,15 +2336,15 @@ Message body as a Python dict.
 
 CESR serialization as a Python byte string.
 ```python
-(b'-FCq0OKERICAACAAXrotEADBM_Gjzv1_mImlJPPD0bzYmUXmXmCiFIncRYfZMaFcEDZOA3y_b_0L'
-b'G4_cfpKTbWU-_3eeYNM0w9iTkT7frTYsMAACEDmgVuwPOXDjIW3reg4_k8SeJoQEKJKP24fGzeMV'
-b'4uKDMAAC-JAhDLv9BlDvjcZWkfPfWcYhNK-xQxz89h82_wA184Vxk8djDCx3WypeBym3fCkVizTg'
+(b'-FCq0OKERICAACAAXrotEBxDwqO3n2CfSV2eU9uZGQdD2nZY0N4HongFEftt4kamEFGEi3daBWvN'
+b'OZ3riL93RhKMd3qrAt2cPP4GYpdQKUPlMAACEIGnvQZsQmEJFDzTvkpYVeWe5p4b7Li4Wenec-hr'
+b'xSUuMAAC-JAhDLv9BlDvjcZWkfPfWcYhNK-xQxz89h82_wA184Vxk8djDCx3WypeBym3fCkVizTg'
 b'18qEThSrVnB63dFq2oX5c3mzDO0PG_ww4PbF2jUIxQnlb4DluJu5ndNehp0BTGWXErXfMAAC-JAh'
 b'EA8_fj-Ezin_Us_gUcg5JQJkIIBnrcZt3HEIuH-E1lpeEERS8udHp2FW89nmaHweQWnZz7I8v9FT'
 b'QdA-LZ_amqGhEAEzmrPusrj4CDKnSFQvhCEW6T95C7hBeFtZtRD7rOTgMAAE-JALBA4PSatfQMw1'
 b'lYhQoZkSSvOCrE0Sdw1hmmniDL-yDtrB-JAWBO3cCAfQiqndZBBxwNk6RGkyA-OA1XbZhBj3s4-V'
-b'IsCoBPowpltoeF14nMbU1ng89JSoYf3AmWhZ50KaCaVO6SIW-JAA-JAY-TAXEF-jViYoBr8p3vkp'
-b'ZuHlkvxAAY5GZkmQ0QaaHfiE0kg3MAABEFzRkEIXetj-ojZaj0U6P9OqroqZzV0kYwoHGqnlUOwv')
+b'IsCoBPowpltoeF14nMbU1ng89JSoYf3AmWhZ50KaCaVO6SIW-JAA-JAY-TAXEPdjet_gItRBeXag'
+b'qaAm3q9-yt5gZRc2vQKUW46AffqmMAABENJEBes6djQe9UyVwLD8ZnvxySkLe2bYvTdJuCHzeS4U')
 ```
 
 
@@ -2358,10 +2357,10 @@ Message body as a Python dict.
 {
     'v': 'KERICAACAACESRAAI4.',
     't': 'drt',
-    'd': 'EFzRkEIXetj-ojZaj0U6P9OqroqZzV0kYwoHGqnlUOwv',
-    'i': 'EF-jViYoBr8p3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg3',
+    'd': 'ENJEBes6djQe9UyVwLD8ZnvxySkLe2bYvTdJuCHzeS4U',
+    'i': 'EPdjet_gItRBeXagqaAm3q9-yt5gZRc2vQKUW46Affqm',
     's': '1',
-    'p': 'EF-jViYoBr8p3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg3',
+    'p': 'EPdjet_gItRBeXagqaAm3q9-yt5gZRc2vQKUW46Affqm',
     'kt': ['1/2', '1/2', '1/2'],
     'k':
     [
@@ -2386,9 +2385,9 @@ Message body as a Python dict.
 
 CESR serialization as a Python byte string.
 ```python
-(b'-FCN0OKERICAACAAXdrtEFzRkEIXetj-ojZaj0U6P9OqroqZzV0kYwoHGqnlUOwvEF-jViYoBr8p'
-b'3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg3MAABEF-jViYoBr8p3vkpZuHlkvxAAY5GZkmQ0QaaHfiE'
-b'0kg34AADA1s2c1s2c1s2-JAhDB1S8zOh4_qdFhxVHn7BDZb1ErWbBFvcVJX1suKSBctRDDCDFlbG'
+(b'-FCN0OKERICAACAAXdrtENJEBes6djQe9UyVwLD8ZnvxySkLe2bYvTdJuCHzeS4UEPdjet_gItRB'
+b'eXagqaAm3q9-yt5gZRc2vQKUW46AffqmMAABEPdjet_gItRBeXagqaAm3q9-yt5gZRc2vQKUW46A'
+b'ffqm4AADA1s2c1s2c1s2-JAhDB1S8zOh4_qdFhxVHn7BDZb1ErWbBFvcVJX1suKSBctRDDCDFlbG'
 b'4dCAX6oIbNffB1mkZqLAS_eHnYUUIPH7BeXBDP3GAMcSx7eCApzk1N7DceV42o1dZemAe0s3r_-Z'
 b'0zs14AADA1s2c1s2c1s2-JAhEKUlc5Ml4HLSvdk39k_vh0m6rc061mfM1a4qoEuiBwXWEJdqHiij'
 b'mjII-ZtlhFAM5D7myuNeESQkzHoqeWJMMHzWEDyk8pj0YPHjGNfrG2qZI866WwevwlHEbWYMsKGT'
@@ -2407,16 +2406,16 @@ Message body as a Python dict.
 {
     'v': 'KERICAACAACESRAABw.',
     't': 'rct',
-    'd': 'EADBM_Gjzv1_mImlJPPD0bzYmUXmXmCiFIncRYfZMaFc',
-    'i': 'EDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs',
+    'd': 'EBxDwqO3n2CfSV2eU9uZGQdD2nZY0N4HongFEftt4kam',
+    'i': 'EFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl',
     's': '2'
 }
 ```
 
 CESR serialization as a Python byte string.
 ```python
-(b'-FAb0OKERICAACAAXrctEADBM_Gjzv1_mImlJPPD0bzYmUXmXmCiFIncRYfZMaFcEDZOA3y_b_0L'
-b'G4_cfpKTbWU-_3eeYNM0w9iTkT7frTYsMAAC')
+(b'-FAb0OKERICAACAAXrctEBxDwqO3n2CfSV2eU9uZGQdD2nZY0N4HongFEftt4kamEFGEi3daBWvN'
+b'OZ3riL93RhKMd3qrAt2cPP4GYpdQKUPlMAAC')
 ```
 
 #### KERI Routed Messages
@@ -2431,14 +2430,14 @@ Message body as a Python dict.
 {
     'v': 'KERICAACAACESRAAD0.',
     't': 'qry',
-    'd': 'EF6usM5fNtZWF33E_EQTo9cgU-5f2DH7iBK2V0RPexSe',
-    'i': 'EF-jViYoBr8p3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg3',
+    'd': 'ELbgwacB_oOfKieZKbrCaGjFcAJfTEQtNpRWHRR6nTrd',
+    'i': 'EPdjet_gItRBeXagqaAm3q9-yt5gZRc2vQKUW46Affqm',
     'dt': '2025-08-21T17:50:00.000000+00:00',
     'r': '/oobi',
     'rr': '/oobi/process',
     'q':
     {
-        'i': 'EDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs',
+        'i': 'EFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl',
         'role': 'witness'
     }
 }
@@ -2446,9 +2445,9 @@ Message body as a Python dict.
 
 CESR serialization as a Python byte string.
 ```python
-(b'-FA80OKERICAACAAXqryEF6usM5fNtZWF33E_EQTo9cgU-5f2DH7iBK2V0RPexSeEF-jViYoBr8p'
-b'3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg31AAG2025-08-21T17c50c00d000000p00c006AACAAA-'
-b'oobi6AAEAAA-oobi-process-IAQ0J_iEDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs'
+(b'-FA80OKERICAACAAXqryELbgwacB_oOfKieZKbrCaGjFcAJfTEQtNpRWHRR6nTrdEPdjet_gItRB'
+b'eXagqaAm3q9-yt5gZRc2vQKUW46Affqm1AAG2025-08-21T17c50c00d000000p00c006AACAAA-'
+b'oobi6AAEAAA-oobi-process-IAQ0J_iEFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl'
 b'1AAFroleYwitness')
 ```
 
@@ -2461,13 +2460,13 @@ Message body as a Python dict.
 {
     'v': 'KERICAACAACESRAAFA.',
     't': 'rpy',
-    'd': 'EPvuKFb4DpBKOA-HPJHKXf3mHFokUcYnBE3tjBougM9S',
-    'i': 'EDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs',
+    'd': 'EMbxfRKdIld1MMUSR-AMKNAfrYPqjfit3VLU0ePGb2Rd',
+    'i': 'EFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl',
     'dt': '2020-08-21T17:52:00.000000+00:00',
     'r': '/oobi/process',
     'a':
     {
-        'i': 'EDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs',
+        'i': 'EFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl',
         'url': 'https://example.com/witness/BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B'
     }
 }
@@ -2475,9 +2474,9 @@ Message body as a Python dict.
 
 CESR serialization as a Python byte string.
 ```python
-(b'-FBP0OKERICAACAAXrpyEPvuKFb4DpBKOA-HPJHKXf3mHFokUcYnBE3tjBougM9SEDZOA3y_b_0L'
-b'G4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs1AAG2020-08-21T17c52c00d000000p00c006AAEAAA-'
-b'oobi-process-IAm0J_iEDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYsXurl4BAYaHR0'
+(b'-FBP0OKERICAACAAXrpyEMbxfRKdIld1MMUSR-AMKNAfrYPqjfit3VLU0ePGb2RdEFGEi3daBWvN'
+b'OZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl1AAG2020-08-21T17c52c00d000000p00c006AAEAAA-'
+b'oobi-process-IAm0J_iEFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPlXurl4BAYaHR0'
 b'cHM6Ly9leGFtcGxlLmNvbS93aXRuZXNzL0JHS1Y2djkzdWU1TDV3c2drNzV0Nmo4VGNkZ0FCTU45'
 b'eC1lSXlQaTk2SjNC')
 ```
@@ -2492,14 +2491,14 @@ Message body as a Python dict.
 {
     'v': 'KERICAACAACESRAAEA.',
     't': 'pro',
-    'd': 'EJRa0zYQjeupTLGMJxdLBkxZP175elZFCI_Ddg0IjKI1',
-    'i': 'EF-jViYoBr8p3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg3',
+    'd': 'EDF6BrJYL9XLlDqVvhEQvflt0chv7wLZyhEGmAAtlTKN',
+    'i': 'EPdjet_gItRBeXagqaAm3q9-yt5gZRc2vQKUW46Affqm',
     'dt': '2025-08-21T17:50:00.000000+00:00',
     'r': '/confidential',
     'rr': '/confidential/process',
     'q':
     {
-        'i': 'EDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs',
+        'i': 'EFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl',
         'name': True
     }
 }
@@ -2508,10 +2507,10 @@ Message body as a Python dict.
 CESR serialization as a Python byte string.
 
 ```python
-(b'-FA_0OKERICAACAAXproEJRa0zYQjeupTLGMJxdLBkxZP175elZFCI_Ddg0IjKI1EF-jViYoBr8p'
-b'3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg31AAG2025-08-21T17c50c00d000000p00c006AAEAAA-'
-b'confidential6AAGAAA-confidential-process-IAP0J_iEDZOA3y_b_0LG4_cfpKTbWU-_3ee'
-b'YNM0w9iTkT7frTYs1AAFname1AAM')
+(b'-FA_0OKERICAACAAXproEDF6BrJYL9XLlDqVvhEQvflt0chv7wLZyhEGmAAtlTKNEPdjet_gItRB'
+b'eXagqaAm3q9-yt5gZRc2vQKUW46Affqm1AAG2025-08-21T17c50c00d000000p00c006AAEAAA-'
+b'confidential6AAGAAA-confidential-process-IAP0J_iEFGEi3daBWvNOZ3riL93RhKMd3qr'
+b'At2cPP4GYpdQKUPl1AAFname1AAM')
 ```
 
 #### Bare Message
@@ -2524,13 +2523,13 @@ Message body as a Python dict.
 {
     'v': 'KERICAACAACESRAADs.',
     't': 'bar',
-    'd': 'EMaAeoTKrRTGIhJeSp-WhwIMSQMvdf13fChMWV6IL6fa',
-    'i': 'EDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs',
+    'd': 'EPmHvAdXK7eGSL5iFC3MYrrXDfp8ZhW0i28PMvsjD_4Y',
+    'i': 'EFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl',
     'dt': '2020-08-22T17:52:00.000000+00:00',
     'r': '/confidential/process',
     'a':
     {
-        'i': 'EDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs',
+        'i': 'EFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl',
         'name': 'Ean'
     }
 }
@@ -2539,9 +2538,9 @@ Message body as a Python dict.
 CESR serialization as a Python byte string.
 
 ```python
-(b'-FA60OKERICAACAAXbarEMaAeoTKrRTGIhJeSp-WhwIMSQMvdf13fChMWV6IL6faEDZOA3y_b_0L'
-b'G4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs1AAG2020-08-22T17c52c00d000000p00c006AAGAAA-'
-b'confidential-process-IAP0J_iEDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs1AAF'
+(b'-FA60OKERICAACAAXbarEPmHvAdXK7eGSL5iFC3MYrrXDfp8ZhW0i28PMvsjD_4YEFGEi3daBWvN'
+b'OZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl1AAG2020-08-22T17c52c00d000000p00c006AAGAAA-'
+b'confidential-process-IAP0J_iEFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl1AAF'
 b'nameXEan')
 ```
 
@@ -2555,10 +2554,10 @@ Message body as a Python dict.
 {
     'v': 'KERICAACAACESRAAE0.',
     't': 'xip',
-    'd': 'EISX00jpyZ1_XZBubJghQ2MSxAEgbuBPSoNIKT-4EdwU',
+    'd': 'EHlSjMkGvdcCdkbEHJTA_R3PsskZ9INsjgNrGncDV7LQ',
     'u': '0ABrZXJpc3BlY3dvcmtyYXcw',
-    'i': 'EF-jViYoBr8p3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg3',
-    'ri': 'EDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs',
+    'i': 'EPdjet_gItRBeXagqaAm3q9-yt5gZRc2vQKUW46Affqm',
+    'ri': 'EFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl',
     'dt': '2020-08-30T13:30:10.123456+00:00',
     'r': '/offer',
     'q':
@@ -2577,9 +2576,9 @@ Message body as a Python dict.
 CESR serialization as a Python byte string.
 
 ```python
-(b'-FBM0OKERICAACAAXxipEISX00jpyZ1_XZBubJghQ2MSxAEgbuBPSoNIKT-4EdwU0ABrZXJpc3Bl'
-b'Y3dvcmtyYXcwEF-jViYoBr8p3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg3EDZOA3y_b_0LG4_cfpKT'
-b'bWU-_3eeYNM0w9iTkT7frTYs1AAG2020-08-30T13c30c10d123456p00c005AACAA-offer-IAF'
+(b'-FBM0OKERICAACAAXxipEHlSjMkGvdcCdkbEHJTA_R3PsskZ9INsjgNrGncDV7LQ0ABrZXJpc3Bl'
+b'Y3dvcmtyYXcwEPdjet_gItRBeXagqaAm3q9-yt5gZRc2vQKUW46AffqmEFGEi3daBWvNOZ3riL93'
+b'RhKMd3qrAt2cPP4GYpdQKUPl1AAG2020-08-30T13c30c10d123456p00c005AACAA-offer-IAF'
 b'0Mtiming0N_immediate-IAO0Maction1AAFsell1AAFitem1AANRembrant0L_price4HAC3000'
 b'00p0')
 ```
@@ -2594,11 +2593,11 @@ Message body as a Python dict.
 {
     'v': 'KERICAACAACESRAAFw.',
     't': 'exn',
-    'd': 'ELG8gjElCt6Q53u0m6QuvVRle32EJz0quZkWITml8BMb',
-    'i': 'EDZOA3y_b_0LG4_cfpKTbWU-_3eeYNM0w9iTkT7frTYs',
-    'ri': 'EF-jViYoBr8p3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg3',
-    'x': 'EISX00jpyZ1_XZBubJghQ2MSxAEgbuBPSoNIKT-4EdwU',
-    'p': 'EISX00jpyZ1_XZBubJghQ2MSxAEgbuBPSoNIKT-4EdwU',
+    'd': 'EF4AbFrsFVOoHzzMBfukwzsMg_8khKrRaxOMXb8cl6YI',
+    'i': 'EFGEi3daBWvNOZ3riL93RhKMd3qrAt2cPP4GYpdQKUPl',
+    'ri': 'EPdjet_gItRBeXagqaAm3q9-yt5gZRc2vQKUW46Affqm',
+    'x': 'EHlSjMkGvdcCdkbEHJTA_R3PsskZ9INsjgNrGncDV7LQ',
+    'p': 'EHlSjMkGvdcCdkbEHJTA_R3PsskZ9INsjgNrGncDV7LQ',
     'dt': '2020-08-30T13:42:11.123456+00:00',
     'r': '/agree',
     'q':
@@ -2617,10 +2616,10 @@ Message body as a Python dict.
 CESR serialization as a Python byte string.
 
 ```python
-(b'-FBb0OKERICAACAAXexnELG8gjElCt6Q53u0m6QuvVRle32EJz0quZkWITml8BMbEDZOA3y_b_0L'
-b'G4_cfpKTbWU-_3eeYNM0w9iTkT7frTYsEF-jViYoBr8p3vkpZuHlkvxAAY5GZkmQ0QaaHfiE0kg3'
-b'EISX00jpyZ1_XZBubJghQ2MSxAEgbuBPSoNIKT-4EdwUEISX00jpyZ1_XZBubJghQ2MSxAEgbuBP'
-b'SoNIKT-4EdwU1AAG2020-08-30T13c42c11d123456p00c005AACAA-agree-IAF0Mtiming0N_i'
+(b'-FBb0OKERICAACAAXexnEF4AbFrsFVOoHzzMBfukwzsMg_8khKrRaxOMXb8cl6YIEFGEi3daBWvN'
+b'OZ3riL93RhKMd3qrAt2cPP4GYpdQKUPlEPdjet_gItRBeXagqaAm3q9-yt5gZRc2vQKUW46Affqm'
+b'EHlSjMkGvdcCdkbEHJTA_R3PsskZ9INsjgNrGncDV7LQEHlSjMkGvdcCdkbEHJTA_R3PsskZ9INs'
+b'jgNrGncDV7LQ1AAG2020-08-30T13c42c11d123456p00c005AACAA-agree-IAF0Mtiming0N_i'
 b'mmediate-IAN0MactionXbuy1AAFitem1AANRembrant0L_price4HAC300000p0')
 ```
 
@@ -2647,7 +2646,7 @@ The simplest form of a KERI OOBI MAY be expressed by any of a namespaced string,
 In concrete tuple form, an OOBI is as follows:
 
 ```python
-("http://192.0.2.6:8080/oobi", "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB")
+("http://192.0.2.6:8080/oobi", "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN")
 ```
 
 An OOBI itself is not signed or otherwise authenticatable by KERI but may employ some other Out-Of-Band-Authentication (OOBA) mechanism, i.e., non-KERI.
@@ -2662,13 +2661,13 @@ URLs provide a namespace, which means that the mapping between URL and AID can b
 For example, suppose the AID is
 
 ```python
-EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB
+EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN
 ```
 
 This may be included as a path component of the URL, such as,
 
 ```python
-http://192.0.2.6:8080/oobi/EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB
+http://192.0.2.6:8080/oobi/EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN
 ```
 
 This is called an OOBI URL, or IURL for short. All that is needed to bootstrap the discovery of a KERI AID is an IURL. KERI can leverage the full IP/DNS infrastructure as a discovery bootstrap of an AID by providing an associated IURL.
@@ -2676,11 +2675,11 @@ This is called an OOBI URL, or IURL for short. All that is needed to bootstrap t
 The AID may act in any of the KERI roles such as `watcher`, `witness`, `juror`, `judge` or `registrar` but is usually a `controller`. In the latter case, the IURL may be a service endpoint provided by one of the supporting components for a given controller. Thus, the AID in an OOBI may be either a controller ID, CID or an endpoint provider ID, EID. The resource at that URL in the OOBI is ultimately responsible for providing that detail, but an OOBI as a URL may contain hints in the query string for the URL, such as a `role` and/or `name` designation.
 
 ```python
-https://example.com/oobi/EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB?role=witness
+https://example.com/oobi/EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN?role=witness
 ```
 
 ```python
-http://192.0.2.6:8080/oobi/EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB?role=watcher&name=eve
+http://192.0.2.6:8080/oobi/EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN?role=watcher&name=eve
 ```
 
 When the role is provided in the IURL, the EID of the endpoint provider for that role would be discovered via the proof returned by querying the URL. In addition, the proof returned may indicate a different URL for that role, so a self-describing IURL may also act as a forwarding mechanism.
@@ -2695,11 +2694,11 @@ An OOBI MAY be returned as the result of an HTTP `GET` request to a well-known U
 For example,
 
 ```python
- /.well-known/oobi/EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB
+ /.well-known/oobi/EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN
 ```
 
 Where:
-`EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB` is the AID. The result of the request is either the target URL or a redirection to the target URL, where the target URL can be found, such as,
+`EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN` is the AID. The result of the request is either the target URL or a redirection to the target URL, where the target URL can be found, such as,
 
 ```python
 https://example.com/witness/witmer
@@ -2719,19 +2718,19 @@ A more verbose version of an OOBI would also include the endpoint role and the A
 For example,
 
 ```python
-https://example.com/oobi/EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB/witness/BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B
+https://example.com/oobi/EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN/witness/BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B
 ```
-where `EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB` is the AID (CID) of the controller and `BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B` is the AID (EID) of one of its witnesses as endpoint provider.
+where `EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN` is the AID (CID) of the controller and `BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B` is the AID (EID) of one of its witnesses as endpoint provider.
 
 Similarly,
 
 ```python
-http://192.0.2.6/oobi/EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB/witness/BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B
+http://192.0.2.6/oobi/EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN/witness/BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B
 ```
 
 
 Where:
-where `EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB` is the AID (CID) of the controller and `BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B` is the AID (EID) of one of its witnesses as endpoint provider.
+where `EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN` is the AID (CID) of the controller and `BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B` is the AID (EID) of one of its witnesses as endpoint provider.
 
 #### Multi-OOBI (MOOBI)
 
@@ -2747,13 +2746,13 @@ Reply message as Python dict.
 {
     "v": "KERICAACAAJSONAAIA.",
     "t": "rpy",
-    "d": "ELtIQ71PMr9m5a8eYiC39hikuU8yTWoFw1vWjtqbVUX4",
-    "i": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+    "d": "ECImC_XpiOBpRRFfPm8Zv4nrDyZEFnmypiM8OEyNMEyh",
+    "i": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
     "dt": "2020-08-21T17:52:00.000000+00:00",
     "r": "/oobi/witness",
     "a":
     {
-        "cid": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+        "cid": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
         "urls":
         [
             "https://example.com/witness/wilma/BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B",
@@ -2766,10 +2765,10 @@ Reply message as Python dict.
 
 Serialized reply message as a Python byte string of JSON without whitespace.
 ```python
-(b'{"v":"KERICAACAAJSONAAIA.","t":"rpy","d":"ELtIQ71PMr9m5a8eYiC39hikuU8yTWoFw1'
-b'vWjtqbVUX4","i":"EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB","dt":"2020-08'
-b'-21T17:52:00.000000+00:00","r":"/oobi/witness","a":{"cid":"EPR7FWsN3tOM8PqfM'
-b'ap2FRfF4MFQ4v3ZXjBUcMVtvhmB","urls":["https://example.com/witness/wilma/BGKV'
+(b'{"v":"KERICAACAAJSONAAIA.","t":"rpy","d":"ECImC_XpiOBpRRFfPm8Zv4nrDyZEFnmypi'
+b'M8OEyNMEyh","i":"EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN","dt":"2020-08'
+b'-21T17:52:00.000000+00:00","r":"/oobi/witness","a":{"cid":"EMZBnss7FmDlFir3D'
+b'6hpNyyNYyuDWYARuVSUslB-8uRN","urls":["https://example.com/witness/wilma/BGKV'
 b'6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B","https://example.com/witness/watso'
 b'n/BAPv2MnoiCsgOnklmFyfU07QDK_93NeH9iKfOy8V22aH","https://example.com/witness'
 b'/winona/BA4PSatfQMw1lYhQoZkSSvOCrE0Sdw1hmmniDL-yDtrB"]}}')
@@ -2783,10 +2782,10 @@ Reply message as Python dict.
 {
     "v": "KERICAACAAJSONAAFq.",
     "t": "rpy",
-    "d": "EFMQh0w5-AHw-H01DtqEFhAIC6KXbjYvUSOEX6kSPY4j",
-    "i": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+    "d": "EAPrRZ16UKbDo3s30wwDVF1tAFtrHvYlnUzlutxkib7Q",
+    "i": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
     "dt": "2020-08-21T17:52:00.000000+00:00",
-    "r": "/oobi/EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB/witness",
+    "r": "/oobi/EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN/witness",
     "a":
     {
         "eid": "BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B",
@@ -2798,10 +2797,10 @@ Reply message as Python dict.
 
 Serialized reply message as a Python byte string of JSON without whitespace.
 ```python
-(b'{"v":"KERICAACAAJSONAAFq.","t":"rpy","d":"EFMQh0w5-AHw-H01DtqEFhAIC6KXbjYvUS'
-b'OEX6kSPY4j","i":"EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB","dt":"2020-08'
-b'-21T17:52:00.000000+00:00","r":"/oobi/EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcM'
-b'VtvhmB/witness","a":{"eid":"BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B","s'
+(b'{"v":"KERICAACAAJSONAAFq.","t":"rpy","d":"EAPrRZ16UKbDo3s30wwDVF1tAFtrHvYlnU'
+b'zlutxkib7Q","i":"EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN","dt":"2020-08'
+b'-21T17:52:00.000000+00:00","r":"/oobi/EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUsl'
+b'B-8uRN/witness","a":{"eid":"BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B","s'
 b'cheme":"https","url":"https://example.com/witness/wilma"}}')
 ```
 
@@ -2982,13 +2981,13 @@ Reply message as Python dict.
 {
     "v": "KERICAACAAJSONAAFI.",
     "t": "rpy",
-    "d": "EBcL5FQ2cHPcLmGb7AKk-ORtq0_A-m-mQTygGxTrqTBb",
-    "i": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+    "d": "EI55faTn-x2C2NnzYggXuVyNGZIt62MEtuBphwYReBBA",
+    "i": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
     "dt": "2020-08-21T17:52:00.000000+00:00",
     "r": "/end/role/add",
     "a":
     {
-        "cid": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+        "cid": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
         "role": "witness",
         "eid": "BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B"
     }
@@ -2997,10 +2996,10 @@ Reply message as Python dict.
 
 Serialized reply message as a Python byte string of JSON without whitespace.
 ```python
-(b'{"v":"KERICAACAAJSONAAFI.","t":"rpy","d":"EBcL5FQ2cHPcLmGb7AKk-ORtq0_A-m-mQT'
-b'ygGxTrqTBb","i":"EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB","dt":"2020-08'
-b'-21T17:52:00.000000+00:00","r":"/end/role/add","a":{"cid":"EPR7FWsN3tOM8PqfM'
-b'ap2FRfF4MFQ4v3ZXjBUcMVtvhmB","role":"witness","eid":"BGKV6v93ue5L5wsgk75t6j8'
+(b'{"v":"KERICAACAAJSONAAFI.","t":"rpy","d":"EI55faTn-x2C2NnzYggXuVyNGZIt62MEtu'
+b'BphwYReBBA","i":"EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN","dt":"2020-08'
+b'-21T17:52:00.000000+00:00","r":"/end/role/add","a":{"cid":"EMZBnss7FmDlFir3D'
+b'6hpNyyNYyuDWYARuVSUslB-8uRN","role":"witness","eid":"BGKV6v93ue5L5wsgk75t6j8'
 b'TcdgABMN9x-eIyPi96J3B"}}')
 ```
 
@@ -3014,13 +3013,13 @@ Reply message as Python dict.
  {
     "v": "KERICAACAAJSONAAFI.",
     "t": "rpy",
-    "d": "EH4uEDQHtCxoJ-RXbvmIjl-NE3JoPJ26fN7sZm9dsqPv",
-    "i": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+    "d": "EO2EhNQYVGblpuAn7WI0ExtCrwuNuAMf564ySizlrDnC",
+    "i": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
     "dt": "2020-08-21T17:52:10.000000+00:00",
     "r": "/end/role/cut",
     "a":
     {
-        "cid": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+        "cid": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
         "role": "witness",
         "eid": "BGKV6v93ue5L5wsgk75t6j8TcdgABMN9x-eIyPi96J3B"
     }
@@ -3029,10 +3028,10 @@ Reply message as Python dict.
 
 Serialized reply message as a Python byte string of JSON without whitespace.
 ```python
-(b'{"v":"KERICAACAAJSONAAFI.","t":"rpy","d":"EH4uEDQHtCxoJ-RXbvmIjl-NE3JoPJ26fN'
-b'7sZm9dsqPv","i":"EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB","dt":"2020-08'
-b'-21T17:52:10.000000+00:00","r":"/end/role/cut","a":{"cid":"EPR7FWsN3tOM8PqfM'
-b'ap2FRfF4MFQ4v3ZXjBUcMVtvhmB","role":"witness","eid":"BGKV6v93ue5L5wsgk75t6j8'
+(b'{"v":"KERICAACAAJSONAAFI.","t":"rpy","d":"EO2EhNQYVGblpuAn7WI0ExtCrwuNuAMf56'
+b'4ySizlrDnC","i":"EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN","dt":"2020-08'
+b'-21T17:52:10.000000+00:00","r":"/end/role/cut","a":{"cid":"EMZBnss7FmDlFir3D'
+b'6hpNyyNYyuDWYARuVSUslB-8uRN","role":"witness","eid":"BGKV6v93ue5L5wsgk75t6j8'
 b'TcdgABMN9x-eIyPi96J3B"}}')
 ```
 
@@ -3046,8 +3045,8 @@ Serialized reply message as a Python byte string of JSON without whitespace.
 {
     "v": "KERICAACAAJSONAAE6.",
     "t": "rpy",
-    "d": "ELH2kZK9QXgV9utSqRE-jf2Xwk4rgca6xk35Mpo4EeZP",
-    "i": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+    "d": "ECAIvQlLhF3ASGfwe3mkS8k2SYtwV-9gDje5xt2SSWqM",
+    "i": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
     "dt": "2020-08-21T17:52:11.000000+00:00",
     "r": "/loc/scheme",
     "a":
@@ -3061,8 +3060,8 @@ Serialized reply message as a Python byte string of JSON without whitespace.
 
 Serialized reply message as a Python byte string of JSON without whitespace.
 ```python
-(b'{"v":"KERICAACAAJSONAAE6.","t":"rpy","d":"ELH2kZK9QXgV9utSqRE-jf2Xwk4rgca6xk'
-b'35Mpo4EeZP","i":"EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB","dt":"2020-08'
+(b'{"v":"KERICAACAAJSONAAE6.","t":"rpy","d":"ECAIvQlLhF3ASGfwe3mkS8k2SYtwV-9gDj'
+b'e5xt2SSWqM","i":"EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN","dt":"2020-08'
 b'-21T17:52:11.000000+00:00","r":"/loc/scheme","a":{"eid":"BGKV6v93ue5L5wsgk75'
 b't6j8TcdgABMN9x-eIyPi96J3B","scheme":"https","url":"https//example.com/witnes'
 b's/wilma"}}')
@@ -3078,8 +3077,8 @@ Reply message as Python dict.
 {
     "v": "KERICAACAAJSONAAEa.",
     "t": "rpy",
-    "d": "EGWrf4ve6Nlec3iC7ba0-f6YBIHXKRzrGG-bWE-gcHY_",
-    "i": "EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB",
+    "d": "EBVw1fBeKaBKYUjLIqtBLrVOeot3aKLa5mAG641Vs2dM",
+    "i": "EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN",
     "dt": "2020-08-21T17:52:12.000000+00:00",
     "r": "/loc/scheme",
     "a":
@@ -3094,8 +3093,8 @@ Reply message as Python dict.
 Serialized reply message as a Python byte string of JSON without whitespace.
 
 ```python
-(b'{"v":"KERICAACAAJSONAAEa.","t":"rpy","d":"EGWrf4ve6Nlec3iC7ba0-f6YBIHXKRzrGG'
-b'-bWE-gcHY_","i":"EPR7FWsN3tOM8PqfMap2FRfF4MFQ4v3ZXjBUcMVtvhmB","dt":"2020-08'
+(b'{"v":"KERICAACAAJSONAAEa.","t":"rpy","d":"EBVw1fBeKaBKYUjLIqtBLrVOeot3aKLa5m'
+b'AG641Vs2dM","i":"EMZBnss7FmDlFir3D6hpNyyNYyuDWYARuVSUslB-8uRN","dt":"2020-08'
 b'-21T17:52:12.000000+00:00","r":"/loc/scheme","a":{"eid":"BGKV6v93ue5L5wsgk75'
 b't6j8TcdgABMN9x-eIyPi96J3B","scheme":"https","url":""}}')
 ```
