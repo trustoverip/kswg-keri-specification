@@ -24,12 +24,17 @@ on:
       triggered_by:
         description: 'Triggered by'
         required: false
+      freeze_label:
+        description: 'Label for the snapshot (freeze action only). Leave empty to use the auto-generated version number.'
+        required: false
+        default: ''
 
 jobs:
   build-and-deploy-spec:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Needed for pushing changes and deploying to Pages
+      contents: write   # Needed for pushing changes
+      actions: write    # Needed to dispatch render-and-deploy.yml
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
@@ -64,7 +69,14 @@ jobs:
         run: |
           case "${{ github.event.inputs.action_type }}" in
             render)
-              npm run render
+              # Rendering is handled by render-and-deploy.yml.
+              # Dispatch that workflow to render and deploy to GitHub Pages.
+              curl -s -X POST \
+                -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+                -H "Accept: application/vnd.github+json" \
+                "https://api.github.com/repos/${{ github.repository }}/actions/workflows/render-and-deploy.yml/dispatches" \
+                -d "{\"ref\":\"${{ github.ref_name }}\"}"
+              echo "render-and-deploy.yml dispatched"
               ;;
             topdf)
               npm run topdf
@@ -73,7 +85,14 @@ jobs:
               npm run todocx
               ;;
             freeze)
-              npm run freeze
+              # A fresh CI checkout has no docs/ (gitignored), so we must render
+              # first to give freeze-spec-data.js the docs/index.html it needs.
+              # freeze-spec-data.js then writes the snapshot to snapshots/,
+              # which is tracked in git. The commit+push step below commits
+              # snapshots/ to the main branch, which triggers
+              # render-and-deploy.yml to deploy the full spec (including versions).
+              npm run collectExternalReferences
+              FREEZE_LABEL="${{ github.event.inputs.freeze_label }}" npm run freeze
               ;;
             custom-update)
               npm run custom-update
@@ -99,7 +118,8 @@ jobs:
           # Commit with appropriate message
           case "${{ github.event.inputs.action_type }}" in
             render)
-              git commit -m "Render specification: Update files" || echo "No changes to commit"
+              # render-and-deploy.yml already handles the commit/deploy; nothing to commit here.
+              echo "Render dispatched to render-and-deploy.yml — no direct commit needed"
               ;;
             topdf)
               git commit -m "Export to PDF" || echo "No changes to commit"
@@ -111,6 +131,10 @@ jobs:
               git commit -m "Collect external references" || echo "No changes to commit"
               ;;
             freeze)
+              # snapshots/ is tracked in git and will be committed.
+              # Note: a GITHUB_TOKEN push does NOT automatically trigger other workflows
+              # (GitHub security restriction). render-and-deploy.yml is dispatched
+              # explicitly in the "Deploy frozen snapshots to GitHub Pages" step below.
               git commit -m "Freeze specification" || echo "No changes to commit"
               ;;
             custom-update)
@@ -122,16 +146,24 @@ jobs:
           esac
           
           # Push changes
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref_name }}
 
-      - name: Commit output files
-        if: success()
+      # After a freeze commit, render-and-deploy.yml must be dispatched explicitly.
+      # GitHub blocks other workflow runs triggered by GITHUB_TOKEN pushes (security
+      # restriction), so the push in "Commit and push changes" alone is not enough
+      # to propagate the new snapshot to the gh-pages branch.
+      # Dispatching render-and-deploy.yml here ensures:
+      #   1. The full render pipeline runs (including snapshots/ → docs/versions/ sync).
+      #   2. The updated docs/ (with the new frozen version) is deployed to gh-pages.
+      - name: Deploy frozen snapshots to GitHub Pages
+        if: success() && github.event.inputs.action_type == 'freeze'
         run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git add "$OUTPUT_PATH"
-          git commit -m "Update output files in $OUTPUT_PATH" || echo "No changes to commit in output directory"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
+          curl -s -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/workflows/render-and-deploy.yml/dispatches" \
+            -d "{\"ref\":\"${{ github.ref_name }}\"}"
+          echo "render-and-deploy.yml dispatched — frozen snapshots will be deployed to gh-pages"
 
       - name: Clean up
         if: always()
