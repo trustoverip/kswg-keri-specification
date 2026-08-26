@@ -1,5 +1,10 @@
 name: Set GitHub Pages and Homepage
 
+# One-time setup workflow: run this AFTER the first successful
+# render-and-deploy run, which creates the gh-pages branch.
+# It configures GitHub Pages to serve from the gh-pages branch (root /)
+# and sets the repository homepage URL.
+
 on:
   workflow_dispatch:
 
@@ -7,93 +12,90 @@ jobs:
   configure-pages-and-homepage:
     runs-on: ubuntu-latest
     permissions:
-      contents: read  # To check branches
-      pages: write   # To configure Pages settings
+      contents: read
     steps:
-      - name: Check if gh-pages branch exists
-        id: check-branch
-        run: |
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
-            -H "Authorization: token ${{ secrets.MY_PAT }}" \
-            -H "Accept: application/vnd.github+json" \
-            https://api.github.com/repos/${{ github.repository }}/branches/gh-pages)
-          if [ "$RESPONSE" -eq 200 ]; then
-            echo "gh-pages branch exists"
-            echo "BRANCH_EXISTS=true" >> $GITHUB_ENV
-          elif [ "$RESPONSE" -eq 404 ]; then
-            echo "Error: gh-pages branch does not exist in ${{ github.repository }}"
-            exit 1
-          else
-            echo "Unexpected response code: $RESPONSE"
-            exit 1
-          fi
-
-      - name: Set GitHub Pages to gh-pages
-        if: env.BRANCH_EXISTS == 'true'
+      # Configure Pages to serve from the gh-pages branch (root /).
+      # POST creates the resource; a 409 means it already exists, so we PUT
+      # to update the source to the gh-pages branch.
+      - name: Enable GitHub Pages (gh-pages branch source)
         env:
           PAT: ${{ secrets.MY_PAT }}
         run: |
-          RESPONSE=$(curl -s -L \
+          HTTP_CODE=$(curl -s -L \
             -X POST \
             -H "Authorization: token $PAT" \
             -H "Accept: application/vnd.github+json" \
             https://api.github.com/repos/${{ github.repository }}/pages \
             -d '{"source":{"branch":"gh-pages","path":"/"}}' \
-            -w "%{http_code}" -o response.json)
-          if [ "$RESPONSE" -eq 201 ] || [ "$RESPONSE" -eq 200 ]; then
-            echo "GitHub Pages set to gh-pages branch for ${{ github.repository }}"
+            -w "%{http_code}" -o response.json | tail -n1)
+
+          if [ "$HTTP_CODE" -eq 201 ] || [ "$HTTP_CODE" -eq 200 ]; then
+            echo "GitHub Pages enabled with gh-pages branch as source"
+          elif [ "$HTTP_CODE" -eq 409 ]; then
+            echo "Pages already exists — updating source to gh-pages branch..."
+            HTTP_CODE2=$(curl -s -L \
+              -X PUT \
+              -H "Authorization: token $PAT" \
+              -H "Accept: application/vnd.github+json" \
+              https://api.github.com/repos/${{ github.repository }}/pages \
+              -d '{"source":{"branch":"gh-pages","path":"/"}}' \
+              -w "%{http_code}" -o response2.json | tail -n1)
+            if [ "$HTTP_CODE2" -eq 200 ] || [ "$HTTP_CODE2" -eq 204 ]; then
+              echo "GitHub Pages source updated to gh-pages branch"
+            else
+              echo "Failed to update Pages: $HTTP_CODE2"
+              cat response2.json
+              exit 1
+            fi
           else
-            echo "Failed to set GitHub Pages: $RESPONSE"
+            echo "Failed to configure Pages: $HTTP_CODE"
             cat response.json
             exit 1
           fi
 
+      # Set the repository homepage field to the expected GitHub Pages URL so
+      # it appears prominently on the repository landing page.
       - name: Set repository homepage to GitHub Pages URL
-        if: env.BRANCH_EXISTS == 'true'
         env:
           PAT: ${{ secrets.MY_PAT }}
         run: |
-          # Construct the expected GitHub Pages URL
           REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
           OWNER=$(echo "${{ github.repository }}" | cut -d'/' -f1)
           PAGES_URL="https://${OWNER}.github.io/${REPO_NAME}"
 
-          # Set the homepage via API
-          RESPONSE=$(curl -s -L \
+          HTTP_CODE=$(curl -s -L \
             -X PATCH \
             -H "Authorization: token $PAT" \
             -H "Accept: application/vnd.github+json" \
             https://api.github.com/repos/${{ github.repository }} \
             -d "{\"homepage\":\"${PAGES_URL}\"}" \
-            -w "%{http_code}" -o response.json)
+            -w "%{http_code}" -o response.json | tail -n1)
 
-          if [ "$RESPONSE" -eq 200 ]; then
-            echo "Repository homepage set to $PAGES_URL for ${{ github.repository }}"
+          if [ "$HTTP_CODE" -eq 200 ]; then
+            echo "Repository homepage set to $PAGES_URL"
           else
-            echo "Failed to set homepage: $RESPONSE"
+            echo "Failed to set homepage: $HTTP_CODE"
             cat response.json
             exit 1
           fi
 
+      # Verify the homepage was written correctly.
       - name: Verify homepage matches GitHub Pages URL
-        if: env.BRANCH_EXISTS == 'true'
         env:
           PAT: ${{ secrets.MY_PAT }}
         run: |
-          # Construct the expected GitHub Pages URL
           REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
           OWNER=$(echo "${{ github.repository }}" | cut -d'/' -f1)
           EXPECTED_URL="https://${OWNER}.github.io/${REPO_NAME}"
 
-          # Fetch the current homepage from the repo
           CURRENT_HOMEPAGE=$(curl -s -L \
             -H "Authorization: token $PAT" \
             -H "Accept: application/vnd.github+json" \
             https://api.github.com/repos/${{ github.repository }} | jq -r '.homepage')
 
           if [ "$CURRENT_HOMEPAGE" = "$EXPECTED_URL" ]; then
-            echo "Verified: Homepage is set to GitHub Pages URL ($EXPECTED_URL)"
+            echo "Verified: homepage is $EXPECTED_URL"
           else
-            echo "Error: Homepage ($CURRENT_HOMEPAGE) does not match expected GitHub Pages URL ($EXPECTED_URL)"
+            echo "Error: homepage ($CURRENT_HOMEPAGE) does not match $EXPECTED_URL"
             exit 1
           fi

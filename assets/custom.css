@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Custom CSS — Override any default styles here.
+
+   This file is loaded AFTER all other stylesheets, so your rules take
+   precedence. It is never overwritten by spec-up-t updates.
+
+   PDF-specific classes (apply only in the generated PDF):
+
+   .pdf-cover          — the cover page wrapper (title, logo, description)
+   .pdf-logo-container — the <a> element wrapping the logo image
+   .pdf-logo           — the logo <img> itself
+   .pdf-title          — the <h1> specification title on the cover
+   .pdf-description    — the <p> description text below the title
+   .pdf-toc            — the table-of-contents container
+   .pdf-toc-heading    — the "Contents" heading inside the TOC
+   .pdf-toc-list       — the <ul> list of TOC entries
+
+   Examples:
+
+   Make the cover logo smaller:
+   .pdf-logo { max-width: 80px; }
+
+   Shrink the cover title font:
+   .pdf-title { font-size: 2rem; }
+
+   Make the description italic and grey:
+   .pdf-description { color: #666; font-style: italic; }
+
+   Reduce TOC font size:
+   .pdf-toc-list { font-size: 0.9rem; }
+
+   Web view — make the header logo bigger:
+   #logo img { max-height: 60px; }
+
+   Target PDF only (body gets class "pdf-document" during PDF generation):
+   body.pdf-document { background: white; }
+
+   Target HTML view only:
+   body:not(.pdf-document) { background-color: #f5f5f5; }
+   ========================================================================== */

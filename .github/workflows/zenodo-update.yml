@@ -1,0 +1,291 @@
+name: Publish release to Zenodo (update)
+
+# Automates the Zenodo *update* path only (New version → upload ZIP → publish).
+# First-time DOI creation (reserve DOI, embed in source, first publish) stays manual:
+# https://trustoverip.github.io/spec-up-t-website/docs/developer-documentation/create-zenodo-doi
+#
+# Required:
+#   ZENODO_USER_API_TOKEN   — secret; Zenodo personal access token of a Zenodo *user*
+#                             (scopes: deposit:write + deposit:actions). Bound to that user.
+#   ZENODO_SPEC_MAIN_DOI    — variable (preferred); this specification’s stable Main ID,
+#                             e.g. 10.5281/zenodo.XXXXXXXX. Bound to this spec / repo.
+#                             (Zenodo’s UI may call this the Concept DOI.)
+#
+# Optional:
+#   ZENODO_SPEC_LATEST_DEPOSITION_ID — secret; numeric id of the latest published version.
+#                             Only needed if ZENODO_SPEC_MAIN_DOI is not set. Prefer Main DOI.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to publish (defaults to latest release)'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zenodo-update-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  zenodo-new-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check secrets
+        env:
+          ZENODO_USER_API_TOKEN: ${{ secrets.ZENODO_USER_API_TOKEN }}
+          ZENODO_SPEC_LATEST_DEPOSITION_ID: ${{ secrets.ZENODO_SPEC_LATEST_DEPOSITION_ID }}
+          ZENODO_SPEC_MAIN_DOI: ${{ vars.ZENODO_SPEC_MAIN_DOI }}
+        run: |
+          if [ -z "$ZENODO_USER_API_TOKEN" ]; then
+            echo "::error::Missing secret ZENODO_USER_API_TOKEN (Zenodo user API token). Create one at https://zenodo.org/account/settings/applications/tokens/new/ (scopes: deposit:write, deposit:actions)."
+            exit 1
+          fi
+          if [ -z "$ZENODO_SPEC_LATEST_DEPOSITION_ID" ] && [ -z "$ZENODO_SPEC_MAIN_DOI" ]; then
+            echo "::error::Set variable ZENODO_SPEC_MAIN_DOI (this spec’s Main ID) or secret ZENODO_SPEC_LATEST_DEPOSITION_ID."
+            exit 1
+          fi
+
+      - name: Resolve release asset
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INPUT_TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          if [ -n "${INPUT_TAG:-}" ]; then
+            TAG="$INPUT_TAG"
+          elif [ "${{ github.event_name }}" = "release" ]; then
+            TAG="${{ github.event.release.tag_name }}"
+          else
+            TAG=$(gh api "repos/${{ github.repository }}/releases/latest" --jq .tag_name)
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+          # GitHub source ZIP for the tag.
+          # Use the public archive URL (real ZIP). Do not send Accept:
+          # application/octet-stream — GitHub zipball/API returns HTTP 415 for that.
+          OUT="release-${TAG}.zip"
+          curl -fsSL \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            -L "https://api.github.com/repos/${{ github.repository }}/zipball/${TAG}" \
+            -o "$OUT"
+          SIZE=$(wc -c < "$OUT" | tr -d ' ')
+          echo "Downloaded $OUT ($SIZE bytes)"
+          if [ "$SIZE" -lt 1000 ]; then
+            echo "::error::Release ZIP is suspiciously small ($SIZE bytes). First bytes:"
+            head -c 500 "$OUT" || true
+            exit 1
+          fi
+          # ZIP local file header is PK\x03\x04
+          if ! head -c 2 "$OUT" | grep -q 'PK'; then
+            echo "::error::Downloaded file is not a ZIP (missing PK header). First bytes:"
+            head -c 200 "$OUT" || true
+            exit 1
+          fi
+          echo "zip_path=$OUT" >> "$GITHUB_OUTPUT"
+          echo "zip_name=$(basename "$OUT")" >> "$GITHUB_OUTPUT"
+          ls -lh "$OUT"
+
+      - name: Resolve latest Zenodo deposition ID
+        id: zenodo
+        env:
+          ZENODO_USER_API_TOKEN: ${{ secrets.ZENODO_USER_API_TOKEN }}
+          ZENODO_SPEC_LATEST_DEPOSITION_ID: ${{ secrets.ZENODO_SPEC_LATEST_DEPOSITION_ID }}
+          ZENODO_SPEC_MAIN_DOI: ${{ vars.ZENODO_SPEC_MAIN_DOI }}
+        run: |
+          set -euo pipefail
+          AUTH="Authorization: Bearer ${ZENODO_USER_API_TOKEN}"
+
+          if [ -n "${ZENODO_SPEC_LATEST_DEPOSITION_ID:-}" ]; then
+            DEPOSITION_ID="$ZENODO_SPEC_LATEST_DEPOSITION_ID"
+            echo "Using ZENODO_SPEC_LATEST_DEPOSITION_ID=$DEPOSITION_ID"
+          else
+            # Main ID form: 10.5281/zenodo.<mainrecid> (Zenodo: Concept DOI)
+            MAIN_RECID="${ZENODO_SPEC_MAIN_DOI##*.}"
+            echo "Resolving latest published version for Main ID recid=$MAIN_RECID"
+            # Records API: Main ID resolves to latest via an HTTP redirect, so -L is
+            # required here (GET only; never follow redirects on POST/PUT).
+            LATEST=$(curl -fsSL -H "$AUTH" \
+              "https://zenodo.org/api/records/${MAIN_RECID}" | jq -r '.id')
+            if [ -z "$LATEST" ] || [ "$LATEST" = "null" ]; then
+              echo "::error::Could not resolve latest record for $ZENODO_SPEC_MAIN_DOI"
+              exit 1
+            fi
+            DEPOSITION_ID="$LATEST"
+            echo "Resolved latest deposition id=$DEPOSITION_ID"
+          fi
+
+          echo "deposition_id=$DEPOSITION_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Create Zenodo new version, upload ZIP, publish
+        env:
+          ZENODO_USER_API_TOKEN: ${{ secrets.ZENODO_USER_API_TOKEN }}
+          ZENODO_SPEC_MAIN_DOI: ${{ vars.ZENODO_SPEC_MAIN_DOI }}
+          DEPOSITION_ID: ${{ steps.zenodo.outputs.deposition_id }}
+          ZIP_PATH: ${{ steps.release.outputs.zip_path }}
+          ZIP_NAME: ${{ steps.release.outputs.zip_name }}
+          TAG: ${{ steps.release.outputs.tag }}
+        run: |
+          set -euo pipefail
+          AUTH="Authorization: Bearer ${ZENODO_USER_API_TOKEN//$'\n'/}"
+          API="https://zenodo.org/api"
+
+          echo "Creating new version from deposition $DEPOSITION_ID ..."
+          # Do not use curl -L on Zenodo API calls (redirects break PUT/POST).
+          CONCEPT_RECID="${ZENODO_SPEC_MAIN_DOI##*.}"
+          TITLE=$(curl -fsS -H "$AUTH" "${API}/deposit/depositions/${DEPOSITION_ID}" | jq -r '.metadata.title // empty')
+          echo "Discarding leftover unpublished drafts for concept $CONCEPT_RECID / title ${TITLE:-unknown} (if any) ..."
+          DEPOSITS=$(curl -fsS -H "$AUTH" "${API}/deposit/depositions?size=50")
+          echo "$DEPOSITS" | jq -r --arg c "$CONCEPT_RECID" --arg parent "$DEPOSITION_ID" --arg title "$TITLE" '
+                .[]
+                | select(.submitted == false)
+                | select((.id|tostring) != $parent)
+                | select(
+                    (.conceptrecid|tostring) == $c
+                    or ((.conceptdoi // "") | tostring | endswith($c))
+                    or ((.metadata.prereserve_doi.recid // "") | tostring) == $c
+                    or ($title != "" and .metadata.title == $title)
+                  )
+                | .id
+              ' \
+            | while read -r leftover; do
+                [ -z "$leftover" ] && continue
+                echo "Discarding leftover draft $leftover ..."
+                curl -sS -o /dev/null -w "discard_http=%{http_code}\n" -X POST -H "$AUTH" \
+                  "${API}/deposit/depositions/${leftover}/actions/discard" || true
+              done
+
+          NEWVERSION_BODY=$(mktemp)
+          NV_HTTP=$(curl -sS -o "$NEWVERSION_BODY" -w "%{http_code}" -X POST -H "$AUTH" \
+            "${API}/deposit/depositions/${DEPOSITION_ID}/actions/newversion" || true)
+          echo "newversion HTTP $NV_HTTP"
+          if [ "$NV_HTTP" != "201" ] && [ "$NV_HTTP" != "200" ]; then
+            echo "::error::Could not create Zenodo new version"
+            cat "$NEWVERSION_BODY" || true
+            echo "::error::If a draft is stuck, open the Zenodo deposit page, Discard it, then re-run."
+            exit 1
+          fi
+          NEWVERSION_JSON=$(cat "$NEWVERSION_BODY")
+          rm -f "$NEWVERSION_BODY"
+
+          DRAFT_URL=$(echo "$NEWVERSION_JSON" | jq -r '.links.latest_draft')
+          if [ -z "$DRAFT_URL" ] || [ "$DRAFT_URL" = "null" ]; then
+            echo "::error::newversion did not return links.latest_draft"
+            echo "$NEWVERSION_JSON" | jq .
+            exit 1
+          fi
+
+          DRAFT_ID="${DRAFT_URL##*/}"
+          echo "Draft deposition id=$DRAFT_ID"
+
+          DRAFT_JSON=$(curl -fsS -H "$AUTH" "${API}/deposit/depositions/${DRAFT_ID}")
+          BUCKET=$(echo "$DRAFT_JSON" | jq -r '.links.bucket')
+          echo "Bucket: $BUCKET"
+
+          # Remove inherited files (files API only) so this version only has the new ZIP.
+          echo "$DRAFT_JSON" | jq -c '.files[]?' | while read -r file; do
+            [ -z "$file" ] || [ "$file" = "null" ] && continue
+            FILE_ID=$(echo "$file" | jq -r '.id // empty')
+            FILE_NAME=$(echo "$file" | jq -r '.filename // .key // empty')
+            if [ -n "$FILE_ID" ]; then
+              echo "Removing inherited file: $FILE_NAME ($FILE_ID)"
+              curl -fsS -X DELETE -H "$AUTH" \
+                "${API}/deposit/depositions/${DRAFT_ID}/files/${FILE_ID}" >/dev/null || true
+            fi
+          done
+
+          # Refresh draft after deletes
+          DRAFT_JSON=$(curl -fsS -H "$AUTH" "${API}/deposit/depositions/${DRAFT_ID}")
+          BUCKET=$(echo "$DRAFT_JSON" | jq -r '.links.bucket')
+
+          echo "Uploading $ZIP_PATH ($ZIP_NAME, $(wc -c < "$ZIP_PATH" | tr -d ' ') bytes) via Python (explicit Content-Length) ..."
+          file "$ZIP_PATH" || true
+          if [ -z "$BUCKET" ] || [ "$BUCKET" = "null" ]; then
+            echo "::error::No bucket URL on draft $DRAFT_ID"
+            exit 1
+          fi
+
+          # curl on GitHub-hosted runners (HTTP/2) makes Zenodo report
+          # "Empty files are not accepted" even when the ZIP is valid.
+          # Python http.client sends HTTP/1.1 with a real Content-Length.
+          export BUCKET DRAFT_ID
+          python3 - <<'PY'
+          import os
+          import sys
+          import urllib.error
+          import urllib.parse
+          import urllib.request
+
+          token = os.environ["ZENODO_USER_API_TOKEN"].strip()
+          bucket = os.environ["BUCKET"].strip()
+          zip_path = os.environ["ZIP_PATH"]
+          zip_name = os.environ["ZIP_NAME"]
+
+          with open(zip_path, "rb") as fh:
+              body = fh.read()
+          print(f"python read {len(body)} bytes from {zip_path}", flush=True)
+          if len(body) == 0:
+              print("::error::Local ZIP is empty; refusing to upload", file=sys.stderr)
+              sys.exit(1)
+
+          url = bucket.rstrip("/") + "/" + urllib.parse.quote(zip_name)
+          req = urllib.request.Request(url, data=body, method="PUT")
+          req.add_header("Authorization", f"Bearer {token}")
+          req.add_header("Content-Type", "application/octet-stream")
+          req.add_header("Content-Length", str(len(body)))
+
+          try:
+              with urllib.request.urlopen(req, timeout=120) as resp:
+                  raw = resp.read().decode("utf-8", errors="replace")
+                  print(f"python upload HTTP {resp.status}", flush=True)
+                  print(raw, flush=True)
+          except urllib.error.HTTPError as err:
+              raw = err.read().decode("utf-8", errors="replace")
+              print(f"python upload HTTP {err.code}", flush=True)
+              print(raw, flush=True)
+              print(
+                  f"::error::If a draft is stuck empty, open https://zenodo.org/deposit/{os.environ.get('DRAFT_ID', '')} and Discard, then re-run.",
+                  file=sys.stderr,
+              )
+              sys.exit(1)
+          PY
+
+          # Bump version metadata when present.
+          META=$(echo "$DRAFT_JSON" | jq --arg v "$TAG" '
+            .metadata
+            | .version = $v
+            | del(.doi)   # let Zenodo assign the new Version DOI (Sub-ID)
+          ')
+          curl -fsS -X PUT -H "$AUTH" -H "Content-Type: application/json" \
+            "${API}/deposit/depositions/${DRAFT_ID}" \
+            -d "$(jq -n --argjson metadata "$META" '{metadata: $metadata}')" >/dev/null
+
+          echo "Publishing deposition $DRAFT_ID ..."
+          PUBLISHED=$(curl -fsS -X POST -H "$AUTH" \
+            "${API}/deposit/depositions/${DRAFT_ID}/actions/publish")
+
+          VERSION_DOI=$(echo "$PUBLISHED" | jq -r '.doi // .metadata.prereserve_doi.doi // empty')
+          MAIN_DOI=$(echo "$PUBLISHED" | jq -r '.conceptdoi // empty')
+          NEW_ID=$(echo "$PUBLISHED" | jq -r '.id')
+
+          echo "Published Zenodo version id=$NEW_ID"
+          echo "Sub-ID (Version DOI): ${VERSION_DOI:-unknown}"
+          echo "Main ID: ${MAIN_DOI:-unknown}"
+          {
+            echo "## Zenodo publish result"
+            echo ""
+            echo "- Release tag: \`$TAG\`"
+            echo "- New deposition id: \`$NEW_ID\`"
+            echo "- Sub-ID (Version DOI): \`${VERSION_DOI:-n/a}\`"
+            echo "- Main ID: \`${MAIN_DOI:-n/a}\`"
+            echo ""
+            echo "Update secret \`ZENODO_SPEC_LATEST_DEPOSITION_ID\` to \`$NEW_ID\` only if you are **not** using \`ZENODO_SPEC_MAIN_DOI\`."
+          } >> "$GITHUB_STEP_SUMMARY"
